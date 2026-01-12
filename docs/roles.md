@@ -19,7 +19,7 @@ If unsure → ASK before coding.
 ---
 
 ## PERSON 1 – ITHIHAS  
-### Role: Authentication & API Contract Owner
+### Role: Authentication
 
 ### Branch
 ```
@@ -54,16 +54,7 @@ client/src/api/auth.api.js
 
 ```
 
-### Docs Ownership
-```
-
-docs/api-contract.md
-
-```
-
 ### Notes
-- Must update `api-contract.md` before adding/changing APIs
-- Other teammates depend on this module
 - Keep auth logic simple and stable
 
 ---
@@ -149,7 +140,7 @@ client/src/api/movie.api.js
 ---
 
 ## PERSON 4 – ADARSH  
-### Role: Pricing, Coupons & Discounts
+### Role: Pricing, Coupons & Discounts & Database Schema     Owner
 
 ### Branch
 ```
@@ -180,15 +171,23 @@ client/src/features/booking/BookingSummary.jsx
 
 ```
 
+### Docs Ownership
+```
+
+docs/db-schema.md
+
+```
+
 ### Notes
 - Pricing depends on shows, not theaters directly
 - Do NOT lock seats or create bookings
 - Amount returned must match API contract
+- Others must not change schema without approval
 
 ---
 
 ## PERSON 5 – HARSHITH  
-### Role: Booking & Database Schema Owner (CORE)
+### Role: Booking & API Contract Owner (CORE)
 
 ### Branch
 ```
@@ -223,14 +222,15 @@ client/src/api/booking.api.js
 ### Docs Ownership
 ```
 
-docs/db-schema.md
+docs/api-contract.md
 
 ```
 
 ### Notes
+- Must update api-contract.md before adding/changing APIs
+- Other teammates depend on this module
 - This is the most critical module
 - Must ensure no double booking
-- Others must not change schema without approval
 
 ---
 

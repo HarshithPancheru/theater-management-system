@@ -97,7 +97,7 @@ cd Desktop
 3. Clone repo:
 ```
 
-git clone [https://github.com/](https://github.com/)<your-org-or-username>/theater-management-system.git
+git clone https://github.com/HarshithPancheru/theater-management-system.git
 
 ```
 
@@ -207,7 +207,7 @@ Create `.env` in `client/`
 
 ```
 
-VITE_API_BASE_URL=[http://localhost:5000/api](http://localhost:5000/api)
+VITE_API_BASE_URL=http://localhost:5000/api
 
 ```
 
@@ -223,7 +223,7 @@ npm run dev
 You will see:
 ```
 
-Local: [http://localhost:5173](http://localhost:5173)
+Local: http://localhost:5173
 
 ```
 

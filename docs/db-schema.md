@@ -285,7 +285,7 @@ Relation:
 
 ## OWNERSHIP
 
-* Schema Owner: **Booking Module Owner**
+* Schema Owner: **Adarsh**
 * Others: Read-only unless approved
 
 ---
