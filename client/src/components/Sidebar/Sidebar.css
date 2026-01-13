@@ -1,0 +1,66 @@
+.sidebar-container {
+  background-color: var(--color-primary);
+  height: 100%;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+}
+
+.app-name-container {
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.app-name {
+  color: var(--text-sidebar);
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.menu-items {
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 40px;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-dashboard {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+
+  background-color: transparent;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.sidebar-text {
+  color: var(--text-sidebar);
+  font-size: 14px;
+  font-weight: 400;
+  transition: color 0.2s ease;
+}
+
+.menu-dashboard:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateX(4px);
+}
+
+.menu-dashboard.active {
+  background-color: var(--color-active);
+}
+.menu-dashboard.active svg,
+.menu-dashboard.active .sidebar-text {
+  color: var(--bg-main);
+  font-weight: var(--font-weight-medium);
+}

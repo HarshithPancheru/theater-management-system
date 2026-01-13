@@ -1,0 +1,36 @@
+.app-header {
+  height: 64px;
+  width: 100%;
+  background-color: var(--bg-main);
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 50px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header-title {
+  font-size: var(--font-size-page-title);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.search-bar-plus-icon {
+  display: flex;
+  gap: 25px;
+}
+
+/* Profile */
+.profile-icon {
+  width: 34px;
+  height: 34px;
+  background-color: var(--color-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}

@@ -1,0 +1,87 @@
+:root {
+  /* ======================
+     COLORS – BACKGROUND
+     ====================== */
+  --bg-main: #ffffff;
+  --bg-soft: #f5f6fa;
+  --bg-card: #ffffff;
+
+  /* ======================
+     COLORS – PRIMARY
+     ====================== */
+  --color-primary: #7c3aed;
+  --color-primary-hover: #6d28d9;
+  --color-accent: #9333ea;
+  --color-active: rgba(255, 255, 255, 0.22);
+
+  /* ======================
+     TEXT
+     ====================== */
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-sidebar: #ffffff;
+  --text-inactive: #ede9fe;
+
+  /* ======================
+     BORDERS
+     ====================== */
+  --border-light: #e5e7eb;
+  --border-focus: #7c3aed;
+  --border-error: #ef4444;
+  
+  /* ======================
+     BORDER RADIUS
+     ====================== */
+
+  --radius-xs: 4px; /* chips, badges, small icons */
+  --radius-sm: 6px; /* inputs, small buttons */
+  --radius-md: 8px; /* buttons, cards (MOST USED) */
+  --radius-lg: 10px; /* modals, search bars */
+  --radius-xl: 12px; /* large cards, panels */
+  --radius-round: 9999px; /* pills, avatars */
+
+  /* ======================
+     STATUS
+     ====================== */
+  --status-success: #22c55e;
+  --status-warning: #f97316;
+  --status-error: #ef4444;
+  --status-info: #7c3aed;
+  --status-disabled: #cbd5e1;
+
+  /* ======================
+     TYPOGRAPHY
+     ====================== */
+  --font-family: "Inter", system-ui, sans-serif;
+
+  --font-size-page-title: 24px;
+  --font-size-section: 18px;
+  --font-size-card: 16px;
+  --font-size-normal: 14px;
+  --font-size-secondary: 13px;
+  --font-size-label: 12px;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  /* ======================
+     COMPONENTS
+     ====================== */
+  --btn-height: 40px;
+  --btn-padding: 0 16px;
+  --btn-radius: 8px;
+
+  --input-height: 40px;
+  --input-padding: 0 12px;
+  --input-radius: 8px;
+
+  /* ======================
+     SEATS (CUSTOMER UI)
+     ====================== */
+  --seat-available: #e5e7eb;
+  --seat-selected: #7c3aed;
+  --seat-booked: #ef4444;
+  --seat-premium: #9333ea;
+  --seat-disabled: #9ca3af;
+}
