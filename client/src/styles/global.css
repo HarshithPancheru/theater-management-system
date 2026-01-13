@@ -1,0 +1,43 @@
+/* Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Root */
+html,
+body {
+  height: 100%;
+}
+
+/* Global body styles */
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-soft); /* theme.colors.background.soft */
+  color: var(--text-primary); /* theme.colors.text.primary */
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Common resets */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  outline: none;
+}
