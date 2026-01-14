@@ -31,7 +31,7 @@ Owner: Melwin (UI Owner)
 |------|------|
 | Sidebar Background | Purple Gradient (#7C3AED → #6D28D9) |
 | Sidebar Text | #FFFFFF |
-| Active Menu Background | rgba(255,255,255,0.15) |
+| Active Menu Background | rgba(255,255,255,0.22) |
 | Active Menu Text | #FFFFFF |
 | Inactive Menu Text | #EDE9FE |
 | Sidebar Icons | #FFFFFF |
@@ -163,13 +163,19 @@ client/src/components/
 ```
 
 Required components:
-1. Button
-2. Input Field
-3. Table
-4. Modal
-5. Status Badge
-6. Seat Component
-7. Alert / Toast
+1. Badge
+2. Button
+3. EmptyState
+4. Header
+5. Input
+6. Loader
+7. Modal
+8. SearchBar
+9. SideBar
+10. Table
+11. Seat Component
+12. Alert / Toast
+
 
 Do NOT create duplicate versions of these.
 
@@ -233,7 +239,7 @@ Rules:
 
 ## 8. LAYOUT RULES
 
-- Sidebar on left (Admin UI)
+- Sidebar on left
 - Header on top
 - Content area uses soft background (#F5F6FA)
 - Cards use white background with subtle border

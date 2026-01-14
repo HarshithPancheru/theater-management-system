@@ -1,0 +1,45 @@
+/* ======================
+   EMPTY STATE CONTAINER
+   ====================== */
+
+.empty-state {
+  width: 100%;
+  padding: 40px 16px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+/* ======================
+   TITLE
+   ====================== */
+
+.empty-state__title {
+  font-size: var(--font-size-section);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+/* ======================
+   DESCRIPTION
+   ====================== */
+
+.empty-state__description {
+  font-size: var(--font-size-normal);
+  max-width: 420px;
+  margin-bottom: 16px;
+}
+
+/* ======================
+   ACTION
+   ====================== */
+
+.empty-state__action {
+  margin-top: 8px;
+}

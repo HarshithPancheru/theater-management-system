@@ -1,7 +1,7 @@
 import React from "react";
 import "./CustomerLayout.css";
 import Header from "../../components/Header/Header";
-import Sidebar from "../../components/Sidebar/SideBar";
+import Sidebar from "../../components/SideBar/SideBar";
 import { customerMenu } from "../../config/SideBarIcon";
 
 const CustomerLayout = () => {

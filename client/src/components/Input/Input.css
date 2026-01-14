@@ -1,0 +1,63 @@
+/* ======================
+   WRAPPER
+   ====================== */
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+/* ======================
+   LABEL
+   ====================== */
+
+.input-label {
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+}
+
+/* ======================
+   INPUT FIELD
+   ====================== */
+
+.input-field {
+  height: var(--input-height);
+  padding: var(--input-padding);
+  border-radius: var(--input-radius);
+
+  border: 1px solid var(--border-light);
+  font-size: var(--font-size-normal);
+  font-family: var(--font-family);
+
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.input-field:focus {
+  border-color: var(--border-focus);
+}
+
+/* ======================
+   ERROR STATE
+   ====================== */
+
+.input-error {
+  border-color: var(--border-error);
+}
+
+.input-error-text {
+  font-size: var(--font-size-label);
+  color: var(--status-error);
+}
+
+/* ======================
+   DISABLED
+   ====================== */
+
+.input-field:disabled {
+  background-color: var(--bg-soft);
+  cursor: not-allowed;
+}

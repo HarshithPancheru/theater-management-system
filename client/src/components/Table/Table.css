@@ -1,0 +1,62 @@
+/* ======================
+   TABLE WRAPPER
+   ====================== */
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+}
+
+/* ======================
+   TABLE
+   ====================== */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* ======================
+   TABLE HEAD
+   ====================== */
+
+.table thead {
+  background-color: var(--bg-soft);
+}
+
+.table th {
+  text-align: center;
+  padding: 12px;
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-light);
+}
+
+/* ======================
+   TABLE BODY
+   ====================== */
+
+.table td {
+  padding: 12px;
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-regular);
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-light);
+  text-align: center;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ======================
+   HOVER
+   ====================== */
+
+.table tbody tr:hover {
+  background-color: var(--bg-soft);
+}
