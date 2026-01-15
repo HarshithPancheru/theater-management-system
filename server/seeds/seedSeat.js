@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { MONGO_URI } from "../src/config/env.js";
-import Seat from "../src/modules/seat/seat.model.js";
+import Seat from "../src/modules/theater/seat.model.js";
 
 const seed = async () => {
   try {
