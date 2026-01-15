@@ -333,4 +333,23 @@ Do NOT randomly change code.
 
 ---
 
+## 11. COMMANDS TO USE DURING DEVELOPMENT
+
+- start the backend server
+   ```bash
+   > npm run start #to reflect any changes you made, reload the server
+   ```
+
+- run the backend in development mode
+    ```bash
+    > npm run dev #automatically reloads when you make changes to any file
+    ```
+    
+- fill the database with dummy data
+   ```bash
+   > npm run seed
+   ```
+---
+
+
 END OF SETUP GUIDE
