@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "seed": "node seeds/seedBookings.js && node seeds/seedCoupens.js && node seeds/seedMovies.js && node seeds/seedNotification.js && node seeds/seedPricing.js && node seeds/seedReview.js && node seeds/seedScreen.js && node seeds/seedSeat.js && node seeds/seedShow.js && node seeds/seedTheaters.js && node seeds/seedUsers.js"
   },
   "keywords": [],
   "author": "",
