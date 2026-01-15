@@ -1,11 +1,40 @@
-import React from 'react'
+import "./Button.css";
+import Loader from "../Loader/Loader";
 
-const Button = () => {
+const Button = ({
+  children,
+  variant = "primary", // primary | secondary | danger
+  size = "md",         // sm | md | lg
+  disabled = false,
+  loading = false,
+  onClick,
+  type = "button",
+}) => {
+  // If loading → button should behave like disabled
+  const isDisabled = disabled || loading;
+
   return (
-    <div>
-      
-    </div>
-  )
-}
+    <button
+      type={type}
+      className={`btn btn--${variant} btn--${size} ${
+        isDisabled ? "btn--disabled" : ""
+      }`}
+      disabled={isDisabled}
+      onClick={onClick}
+    >
+      {/* Button text */}
+      <span className={`btn__text ${loading ? "btn__text--hidden" : ""}`}>
+        {children}
+      </span>
 
-export default Button
+      {/* Loader shown only when loading */}
+      {loading && (
+        <span className="btn__loader">
+          <Loader size="md" />
+        </span>
+      )}
+    </button>
+  );
+};
+
+export default Button;

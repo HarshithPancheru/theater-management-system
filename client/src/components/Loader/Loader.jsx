@@ -1,11 +1,7 @@
-import React from 'react'
+import "./Loader.css";
 
-const Loader = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+const Loader = ({ size = "md" }) => {
+  return <span className={`loader loader--${size}`} />;
+};
 
-export default Loader
+export default Loader;
