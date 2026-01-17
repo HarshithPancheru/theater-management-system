@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./SideBar.css";
-import { icons } from "../../config/SideBarIcon.jsx";
+import { icons } from "../../config/SideBarIcon";
 
 const Sidebar = ({ menu }) => {
   const [activeItem, setActiveItem] = useState(menu[0]?.label);

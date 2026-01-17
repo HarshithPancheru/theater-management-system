@@ -2,7 +2,7 @@ import React from "react";
 import "./SuperAdminLayout.css";
 import Header from "../../components/Header/Header";
 import Sidebar from "../../components/SideBar/SideBar";
-import { superAdminMenu } from "../../config/SideBarIcon";
+import { superAdminMenu } from "../../config/SideBarMenu";
 
 const SuperAdminLayout = () => {
   return (

@@ -2,7 +2,7 @@ import React from "react";
 import "./StaffLayout.css";
 import Header from "../../components/Header/Header";
 import Sidebar from "../../components/SideBar/SideBar";
-import { staffMenu } from "../../config/SideBarIcon";
+import { staffMenu } from "../../config/SideBarMenu";
 
 const StaffLayout = () => {
   return (
