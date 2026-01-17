@@ -2,7 +2,7 @@ import React from "react";
 import "./TheaterManagerLayout.css";
 import Header from "../../components/Header/Header";
 import Sidebar from "../../components/SideBar/SideBar";
-import { theaterManagerMenu } from "../../config/SideBarIcon";
+import { theaterManagerMenu } from "../../config/SideBarMenu";
 
 const TheaterManagerLayout = () => {
   return (

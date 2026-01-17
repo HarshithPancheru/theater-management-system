@@ -2,7 +2,7 @@ import React from "react";
 import "./CustomerLayout.css";
 import Header from "../../components/Header/Header";
 import Sidebar from "../../components/SideBar/SideBar";
-import { customerMenu } from "../../config/SideBarIcon";
+import { customerMenu } from "../../config/SideBarMenu";
 
 const CustomerLayout = () => {
   return (
