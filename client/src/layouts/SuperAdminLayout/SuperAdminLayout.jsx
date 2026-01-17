@@ -1,7 +1,7 @@
 import React from "react";
 import "./SuperAdminLayout.css";
 import Header from "../../components/Header/Header";
-import Sidebar from "../../components/Sidebar/SideBar";
+import Sidebar from "../../components/SideBar/SideBar";
 import { superAdminMenu } from "../../config/SideBarIcon";
 
 const SuperAdminLayout = () => {
