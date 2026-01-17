@@ -1,62 +1,110 @@
+import * as bookingService from "./booking.service.js";
+
+/* Lock seats */
 export const lockSeats = async (req, res, next) => {
   try {
-    // TODO: bookingService.lockSeats(...)
-    return res.json({
+    const { showId, seatIds } = req.body;
+
+    if (!showId || !seatIds || seatIds.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "showId and seatIds are required"
+      });
+    }
+
+    const result = await bookingService.lockSeats(showId, seatIds);
+
+    res.json({
       success: true,
-      message: "Lock seats controller reached",
-      data: { expiresInSeconds: 300 }
+      message: "Seats locked successfully",
+      data: result
     });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
 
+/* Create booking */
 export const createBooking = async (req, res, next) => {
   try {
-    // TODO: bookingService.createBooking(...)
-    return res.json({
+    const { showId, seatIds, paymentMethod } = req.body;
+    const userId = req.user.id;
+
+    if (!showId || !seatIds || !paymentMethod) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing required fields"
+      });
+    }
+
+    const booking = await bookingService.createBooking(
+      userId,
+      showId,
+      seatIds,
+      paymentMethod
+    );
+
+    res.json({
       success: true,
-      message: "Create booking controller reached"
+      message: "Booking confirmed",
+      data: {
+        bookingId: booking._id,
+        status: booking.status
+      }
     });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
 
+/* Get my bookings */
 export const getMyBookings = async (req, res, next) => {
   try {
-    // TODO: bookingService.getMyBookings(...)
-    return res.json({
+    const bookings = await bookingService.getMyBookings(req.user.id);
+
+    res.json({
       success: true,
-      message: "Get my bookings controller reached",
-      data: []
+      data: bookings
     });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
 
+/* Get booking details */
 export const getBookingDetails = async (req, res, next) => {
   try {
-    // TODO: bookingService.getBookingDetails(...)
-    return res.json({
+    const booking = await bookingService.getBookingDetails(
+      req.params.bookingId,
+      req.user.id
+    );
+
+    res.json({
       success: true,
-      message: "Get booking details controller reached",
-      data: {}
+      data: booking
     });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
 
+/* Cancel booking */
 export const cancelBooking = async (req, res, next) => {
   try {
-    // TODO: bookingService.cancelBooking(...)
-    return res.json({
+    const booking = await bookingService.cancelBooking(
+      req.params.bookingId,
+      req.user.id
+    );
+
+    res.json({
       success: true,
-      message: "Cancel booking controller reached"
+      message: "Booking cancelled",
+      data: {
+        bookingId: booking._id,
+        status: booking.status
+      }
     });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
