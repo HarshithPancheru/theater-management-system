@@ -1,8 +1,8 @@
-import React from "react";
 import "./TheaterManagerLayout.css";
 import Header from "../../components/Header/Header";
 import Sidebar from "../../components/SideBar/SideBar";
 import { theaterManagerMenu } from "../../config/SideBarMenu";
+import { Outlet } from "react-router-dom";
 
 const TheaterManagerLayout = () => {
   return (
@@ -17,7 +17,10 @@ const TheaterManagerLayout = () => {
         <Header />
 
         {/* main content goes here */}
-        <div className="content">{/* later <Outlet /> will come here */}</div>
+        <div className="content">
+          {/* <Outlet /> will come here */}
+          <Outlet />
+        </div>
       </div>
     </div>
   );

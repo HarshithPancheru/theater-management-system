@@ -1,35 +1,35 @@
 export const superAdminMenu = [
-  { label: "Dashboard", icon: "dashboard", path: "/sa/dashboard" },
-  { label: "Theaters", icon: "theater", path: "/sa/theaters" },
-  { label: "Screens", icon: "screen", path: "/sa/screens" },
-  { label: "Movies", icon: "movie", path: "/sa/movies" },
-  { label: "Shows", icon: "show", path: "/sa/shows" },
-  { label: "Bookings", icon: "booking", path: "/sa/bookings" },
-  { label: "Users", icon: "users", path: "/sa/users" },
-  { label: "Staff", icon: "staff", path: "/sa/staff" },
-  { label: "Reports", icon: "reports", path: "/sa/reports" },
-  { label: "Settings", icon: "settings", path: "/sa/settings" },
+  { label: "Dashboard", icon: "dashboard", path: "/super-admin" },
+  { label: "Theaters", icon: "theater", path: "/" },
+  { label: "Screens", icon: "screen", path: "/" },
+  { label: "Movies", icon: "movie", path: "/" },
+  { label: "Shows", icon: "show", path: "/" },
+  { label: "Bookings", icon: "booking", path: "/super-admin/bookings" },
+  { label: "Users", icon: "users", path: "/" },
+  { label: "Staff", icon: "staff", path: "/" },
+  { label: "Reports", icon: "reports", path: "/" },
+  { label: "Settings", icon: "settings", path: "/" },
 ];
 
 export const theaterManagerMenu = [
-  { label: "Dashboard", icon: "dashboard" },
-  { label: "Screens", icon: "screen" },
-  { label: "Movies", icon: "movie" },
-  { label: "Shows", icon: "show" },
-  { label: "Bookings", icon: "booking" },
-  { label: "Reports", icon: "reports" },
+  { label: "Dashboard", icon: "dashboard", path:"/theater-manager" },
+  { label: "Screens", icon: "screen", path:"/" },
+  { label: "Movies", icon: "movie", path:"/" },
+  { label: "Shows", icon: "show", path:"/" },
+  { label: "Bookings", icon: "booking", path:"/" },
+  { label: "Reports", icon: "reports", path:"/" },
 ];
 
 export const staffMenu = [
-  { label: "Dashboard", icon: "dashboard" },
-  { label: "Shows", icon: "show" },
-  { label: "Bookings", icon: "booking" },
+  { label: "Dashboard", icon: "dashboard", path:"/staff" },
+  { label: "Shows", icon: "show", path:"/" },
+  { label: "Bookings", icon: "booking", path:"/staff/bookings" },
 ];
 
 export const customerMenu = [
-  { label: "Home", icon: "home" },
-  { label: "Movies", icon: "movie" },
-  { label: "Theaters", icon: "theater" },
-  { label: "My Bookings", icon: "booking" },
-  { label: "Profile", icon: "profile" },
+  { label: "Home", icon: "home", path: "/customer" },
+  { label: "Movies", icon: "movie", path: "/customer/movies" },
+  { label: "Theaters", icon: "theater", path: "/customer/theaters" },
+  { label: "My Bookings", icon: "booking", path: "/customer/my-bookings" },
+  { label: "Profile", icon: "profile", path: "/customer/profile" },
 ];
