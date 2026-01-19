@@ -250,6 +250,107 @@ const data = [
 
 ---
 
+## 8️⃣ Toast Notifications
+
+### Purpose
+
+Toast notifications are used to provide quick feedback to users for actions such as success, errors, warnings, or loading states.
+
+The project uses **react-hot-toast** with theme-aligned styling.
+
+---
+
+### Setup (Already Done)
+
+The toaster is configured globally in `App.jsx`.
+Developers should **not** add another `<Toaster />` anywhere else.
+
+---
+
+### Usage
+
+Toast should be triggered using utility functions instead of directly calling the library.
+
+### Available Methods
+
+```js
+import {
+  showSuccess,
+  showError,
+  showInfo,
+  showLoading,
+} from "../../utils/toast";
+```
+
+---
+
+### Success Toast
+
+```js
+showSuccess("Booking confirmed successfully");
+```
+
+Use for:
+
+* Successful form submissions
+* Completed actions
+* API success responses
+
+---
+
+### Error Toast
+
+```js
+showError("Failed to create booking");
+```
+
+Use for:
+
+* API errors
+* Validation failures
+* Permission issues
+
+---
+
+### Info Toast
+
+```js
+showInfo("Fetching latest data...");
+```
+
+Use for:
+
+* Informational messages
+* Non-blocking notices
+
+---
+
+### Loading Toast
+
+```js
+const toastId = showLoading("Processing payment...");
+
+// later
+toast.dismiss(toastId);
+```
+
+Use for:
+
+* Long-running API calls
+* Payment flows
+* Multi-step actions
+
+---
+
+### Guidelines
+
+* Always use toast utilities (`utils/toast.js`)
+* Do NOT call `react-hot-toast` directly
+* Keep messages short and user-friendly
+* Avoid triggering toast inside render loops
+
+---
+
 ## ✅ General Guidelines
 
 * Prefer shared components over custom UI
