@@ -3,6 +3,8 @@ import app from "./app.js";
 import connectDB from "./config/db.js";
 import cron from "node-cron";
 import releaseExpiredLocks from "./jobs/releaseExpiredLocks.job.js";
+import pricingRoutes from "./routes/pricing.routes.js";
+app.use("/pricing", pricingRoutes);
 
 
 const PORT = process.env.PORT || 5000;
