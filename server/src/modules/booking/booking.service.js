@@ -1,6 +1,10 @@
 import Booking from "./booking.model.js";
 import ShowSeat from "./showSeat.model.js";
 import Pricing from "../pricing/pricing.model.js";
+import Show from "../show/show.model.js";
+import Movie from "../movie/movie.model.js";
+import Screen from "../theater/screen.model.js";
+import Theater from "../theater/theater.model.js";
 
 const LOCK_DURATION_MS = 5 * 60 * 1000; // 5 minutes
 
@@ -95,8 +99,31 @@ export const createBooking = async (
 
 /* Get bookings for logged-in user */
 export const getMyBookings = async (userId) => {
-  return Booking.find({ userId }).sort({ createdAt: -1 });
+  const bookings = await Booking.find({ userId }, {_id:1, showId:1})
+    .sort({ createdAt: -1 })
+    .populate({
+      path: "showId",
+      select: "startTime date",
+      populate: [
+        { path: "movieId", select: "title" },
+        {
+          path: "screenId", select:"_id",
+          populate: { path: "theaterId", select: "name location" }
+        }
+      ]
+    });   
+
+  return bookings.map(b => ({
+    bookingId: b._id,
+    movieTitle: b.showId.movieId.title,
+    startTime: b.showId.startTime,
+    date: b.showId.date,
+    theaterName: b.showId.screenId.theaterId.name,
+    location: b.showId.screenId.theaterId.location
+  }));
+
 };
+
 
 /* Get booking details */
 export const getBookingDetails = async (bookingId, userId) => {
