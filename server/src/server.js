@@ -4,10 +4,9 @@ import connectDB from "./config/db.js";
 import cron from "node-cron";
 import releaseExpiredLocks from "./jobs/releaseExpiredLocks.job.js";
 import pricingRoutes from "./routes/pricing.routes.js";
-app.use("/pricing", pricingRoutes);
 import paymentRoutes from "./routes/payment.routes.js";
-app.use("/payment", paymentRoutes);
-
+import movieRoutes from "./routes/movie.routes.js"; 
+import showRoutes from "./routes/show.routes.js";
 
 const PORT = process.env.PORT || 5000;
 

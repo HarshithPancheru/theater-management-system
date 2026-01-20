@@ -2,9 +2,12 @@ import mongoose from "mongoose";
 import { MONGO_URI } from "../src/config/env.js";
 import Movie from "../src/modules/movie/movie.model.js";
 
-const seed = async () => {
+const seedMovies = async () => {
   try {
     await mongoose.connect(MONGO_URI);
+
+    // Clear old movies
+    await Movie.deleteMany({});
 
     // Sample movies
     const movies = [
@@ -29,13 +32,13 @@ const seed = async () => {
     ];
 
     await Movie.insertMany(movies);
-    console.log("✅ Sample movies inserted successfully");
+    console.log("✅ Movies seeded successfully");
 
     process.exit();
   } catch (err) {
-    console.error("❌ Seeding failed:", err.message);
+    console.error("❌ Movie seeding failed:", err.message);
     process.exit(1);
   }
 };
 
-seed();
+seedMovies();

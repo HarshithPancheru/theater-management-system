@@ -8,6 +8,8 @@ const userSchema = new mongoose.Schema(
 
     passwordHash: { type: String, required: true },
 
+    profilePhoto: { type: String },
+
     role: {
       type: String,
       enum: ["SUPER_ADMIN", "THEATER_MANAGER", "STAFF", "USER"],

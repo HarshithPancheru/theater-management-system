@@ -9,9 +9,8 @@ import bookingRoutes from "./routes/booking.routes.js";
 import pricingRoutes from "./routes/pricing.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import notificationRoutes from "./routes/notification.routes.js";
-
+import paymentRoutes from "./routes/payment.routes.js";
 import errorMiddleware from "./middleware/error.middleware.js";
-
 const app = express();
 
 /* Middlewares */
@@ -28,8 +27,8 @@ app.use("/api/pricing", pricingRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/payment", paymentRoutes);
-import paymentRoutes from "./routes/payment.routes.js";
-
+app.use("/pricing", pricingRoutes);
+app.use("/payment", paymentRoutes);
 /* Health Check */
 app.get("/api/health", (req, res) => {
   res.json({ success: true, message: "API is running" });
