@@ -27,6 +27,8 @@ app.use("/api/bookings", bookingRoutes);
 app.use("/api/pricing", pricingRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/notifications", notificationRoutes);
+app.use("/api/payment", paymentRoutes);
+import paymentRoutes from "./routes/payment.routes.js";
 
 /* Health Check */
 app.get("/api/health", (req, res) => {
