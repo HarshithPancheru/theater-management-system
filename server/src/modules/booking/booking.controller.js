@@ -27,30 +27,25 @@ export const lockSeats = async (req, res, next) => {
 /* Create booking */
 export const createBooking = async (req, res, next) => {
   try {
-    const { showId, seatIds, paymentMethod } = req.body;
+    const { showId, seatIds, paymentMethod, couponCode } = req.body;
     const userId = req.user.id;
 
     if (!showId || !seatIds || !paymentMethod) {
-      return res.status(400).json({
-        success: false,
-        message: "Missing required fields"
-      });
+      return res.status(400).json({ success: false, message: "Missing required fields" });
     }
 
     const booking = await bookingService.createBooking(
       userId,
       showId,
       seatIds,
-      paymentMethod
+      paymentMethod,
+      couponCode // pass coupon
     );
 
     res.json({
       success: true,
       message: "Booking confirmed",
-      data: {
-        bookingId: booking._id,
-        status: booking.status
-      }
+      data: { bookingId: booking._id, status: booking.status }
     });
   } catch (error) {
     next(error);
@@ -108,3 +103,4 @@ export const cancelBooking = async (req, res, next) => {
     next(error);
   }
 };
+

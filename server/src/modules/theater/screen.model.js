@@ -8,14 +8,26 @@ const screenSchema = new mongoose.Schema(
       required: true
     },
 
-    name: { type: String, required: true },
-
-    capacity: { type: Number, required: true },
+    name: {
+      type: String,
+      required: true
+    },
 
     type: {
       type: String,
       enum: ["2D", "3D", "IMAX", "4DX"],
       required: true
+    },
+
+    capacity: {
+      type: Number,
+      required: true
+    },
+
+    status: {
+      type: String,
+      enum: ["ACTIVE", "INACTIVE"],
+      default: "ACTIVE"
     }
   },
   { timestamps: true }

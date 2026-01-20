@@ -1,10 +1,8 @@
-import React, { useState } from "react";
 import "./SideBar.css";
 import { icons } from "../../config/SideBarIcon";
+import { NavLink } from "react-router-dom";
 
 const Sidebar = ({ menu }) => {
-  const [activeItem, setActiveItem] = useState(menu[0]?.label);
-
   return (
     <>
       <div className="sidebar-container">
@@ -29,16 +27,17 @@ const Sidebar = ({ menu }) => {
         {/* menu items */}
         <nav className="menu-items">
           {menu.map((item) => (
-            <div
+            <NavLink
+              to={item.path}
+              end
               key={item.label}
-              className={`menu-dashboard ${
-                activeItem === item.label ? "active" : ""
-              }`}
-              onClick={() => setActiveItem(item.label)}
+              className={({ isActive }) =>
+                `menu-dashboard ${isActive ? "active" : ""}`
+              }
             >
               {icons[item.icon]}
               <span className="sidebar-text">{item.label}</span>
-            </div>
+            </NavLink>
           ))}
         </nav>
       </div>

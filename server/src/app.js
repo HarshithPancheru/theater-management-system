@@ -9,7 +9,7 @@ import bookingRoutes from "./routes/booking.routes.js";
 import pricingRoutes from "./routes/pricing.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import notificationRoutes from "./routes/notification.routes.js";
-
+import paymentRoutes from "./routes/payment.routes.js";
 import errorMiddleware from "./middleware/error.middleware.js";
 
 const app = express();
@@ -26,9 +26,10 @@ app.use("/api/shows", showRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/pricing", pricingRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/notifications", notificationRoutes);
+app.use("/api/notifications", notificationRoutes
 app.use("/uploads/movies", express.static("uploads/movies"));
 app.use("/uploads/users", express.static("uploads/users"));
+app.use("/api/payment", paymentRoutes);
 
 /* Health Check */
 app.get("/api/health", (req, res) => {
