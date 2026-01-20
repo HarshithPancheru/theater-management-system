@@ -4,11 +4,16 @@ import {
   getMovies,
   getMovieDetails
 } from "../modules/movie/movie.controller.js";
-
+import { movieUpload } from "../middleware/upload.middleware.js"; // <-- named import
 const router = express.Router();
 
-router.post("/", addMovie);
+// Add movie with image upload
+router.post("/", movieUpload.single("image"), addMovie);
+
+// Get all movies
 router.get("/", getMovies);
+
+// Get movie details by ID
 router.get("/:movieId", getMovieDetails);
 router.post("/", movieUpload.single("image"), addMovie);
 export default router;
