@@ -5,6 +5,8 @@ import cron from "node-cron";
 import releaseExpiredLocks from "./jobs/releaseExpiredLocks.job.js";
 import pricingRoutes from "./routes/pricing.routes.js";
 app.use("/pricing", pricingRoutes);
+import paymentRoutes from "./routes/payment.routes.js";
+app.use("/payment", paymentRoutes);
 
 
 const PORT = process.env.PORT || 5000;
