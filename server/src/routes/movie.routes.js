@@ -10,5 +10,5 @@ const router = express.Router();
 router.post("/", addMovie);
 router.get("/", getMovies);
 router.get("/:movieId", getMovieDetails);
-
+router.post("/", movieUpload.single("image"), addMovie);
 export default router;

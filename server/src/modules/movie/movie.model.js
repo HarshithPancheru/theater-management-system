@@ -18,7 +18,8 @@ const movieSchema = new mongoose.Schema(
       type: String,
       enum: ["UPCOMING", "NOW_SHOWING", "ARCHIVED"],
       default: "UPCOMING"
-    }
+    },
+    image: { type: String }
   },
   { timestamps: true }
 );
