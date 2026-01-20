@@ -1,61 +1,80 @@
+import * as theaterService from "./theater.service.js";
+
+
+/**
+ * Create new theater
+ */
 export const createTheater = async (req, res, next) => {
   try {
-    // TODO: theaterService.createTheater(...)
-    return res.json({
+    const theater = await theaterService.createTheater(req.body);
+
+    return res.status(201).json({
       success: true,
-      message: "Create theater controller reached",
-      data: {}
+      message: "Theater created successfully",
+      data: theater
     });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
 
+/**
+ * Get all theaters (with search & filter)
+ */
 export const getTheaters = async (req, res, next) => {
   try {
-    // TODO: theaterService.getTheaters(...)
+    console.log("🚀 CORRECT CONTROLLER FILE RUNNING");
+    const theaters = await theaterService.getTheaters(req.query);
+
     return res.json({
       success: true,
-      message: "Get theaters controller reached",
-      data: []
+      message: "Theaters fetched successfully",
+      data: theaters
     });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
 
+
+
+/**
+ * Update theater details
+ */
 export const updateTheater = async (req, res, next) => {
   try {
-    // TODO: theaterService.updateTheater(...)
+    const { theaterId } = req.params;
+
+    const updatedTheater = await theaterService.updateTheater(
+      theaterId,
+      req.body
+    );
+
     return res.json({
       success: true,
-      message: "Update theater controller reached"
+      message: "Theater updated successfully",
+      data: updatedTheater
     });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
 
+/**
+ * Activate / Deactivate theater
+ */
 export const toggleTheaterStatus = async (req, res, next) => {
   try {
-    // TODO: theaterService.toggleStatus(...)
-    return res.json({
-      success: true,
-      message: "Toggle theater status controller reached"
-    });
-  } catch (err) {
-    next(err);
-  }
-};
+    const { theaterId } = req.params;
 
-export const addScreen = async (req, res, next) => {
-  try {
-    // TODO: theaterService.addScreen(...)
+    const theater = await theaterService.toggleTheaterStatus(theaterId);
+
     return res.json({
       success: true,
-      message: "Add screen controller reached"
+      message: "Theater status updated",
+      data: theater
     });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
