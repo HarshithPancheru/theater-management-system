@@ -2,7 +2,7 @@ import React from 'react'
 
 const TheaterList = () => {
   return (
-    <div>TheaterList</div>
+    <div>Super Admin TheaterList</div>
   )
 }
 

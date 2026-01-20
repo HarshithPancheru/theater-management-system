@@ -1,35 +1,27 @@
 export const superAdminMenu = [
-  { label: "Dashboard", icon: "dashboard", path: "/super-admin" },
-  { label: "Theaters", icon: "theater", path: "/" },
-  { label: "Screens", icon: "screen", path: "/" },
-  { label: "Movies", icon: "movie", path: "/" },
-  { label: "Shows", icon: "show", path: "/" },
+  { label: "Theaters", icon: "theater", path: "/super-admin/theaters" },
+  { label: "Screens", icon: "screen", path: "/super-admin/screens" },
+  { label: "Movies", icon: "movie", path: "/super-admin/movies" },
+  { label: "Shows", icon: "show", path: "/super-admin/shows" },
   { label: "Bookings", icon: "booking", path: "/super-admin/bookings" },
-  { label: "Users", icon: "users", path: "/" },
-  { label: "Staff", icon: "staff", path: "/" },
-  { label: "Reports", icon: "reports", path: "/" },
-  { label: "Settings", icon: "settings", path: "/" },
+  { label: "Users", icon: "users", path: "/super-admin/users" },
+  { label: "Staff", icon: "staff", path: "/super-admin/staff" },
 ];
 
 export const theaterManagerMenu = [
-  { label: "Dashboard", icon: "dashboard", path:"/theater-manager" },
-  { label: "Screens", icon: "screen", path:"/" },
-  { label: "Movies", icon: "movie", path:"/" },
-  { label: "Shows", icon: "show", path:"/" },
-  { label: "Bookings", icon: "booking", path:"/" },
-  { label: "Reports", icon: "reports", path:"/" },
+  { label: "Screens", icon: "screen", path:"/theater-manager/screens" },
+  { label: "Movies", icon: "movie", path:"/theater-manager/movies" },
+  { label: "Shows", icon: "show", path:"/theater-manager/shows" },
+  { label: "Bookings", icon: "booking", path:"/theater-manager/bookings" },
 ];
 
 export const staffMenu = [
-  { label: "Dashboard", icon: "dashboard", path:"/staff" },
-  { label: "Shows", icon: "show", path:"/" },
+  { label: "Shows", icon: "show", path:"/staff/shows" },
   { label: "Bookings", icon: "booking", path:"/staff/bookings" },
 ];
 
 export const customerMenu = [
-  { label: "Home", icon: "home", path: "/customer" },
   { label: "Movies", icon: "movie", path: "/customer/movies" },
-  { label: "Theaters", icon: "theater", path: "/customer/theaters" },
   { label: "My Bookings", icon: "booking", path: "/customer/my-bookings" },
   { label: "Profile", icon: "profile", path: "/customer/profile" },
 ];
