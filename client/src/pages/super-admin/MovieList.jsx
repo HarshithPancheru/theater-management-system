@@ -2,7 +2,7 @@ import React from 'react'
 
 const MovieList = () => {
   return (
-    <div>MovieList</div>
+    <div>Super admin movie list</div>
   )
 }
 
