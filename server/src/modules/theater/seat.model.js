@@ -20,7 +20,7 @@ const seatSchema = new mongoose.Schema(
 
     category: {
       type: String,
-      enum: ["GOLD", "SILVER", "RECLINER", "WHEELCHAIR"],
+      enum: ["PREMIUM", "GOLD", "SILVER", "BALCONY"],
       required: true
     },
 
