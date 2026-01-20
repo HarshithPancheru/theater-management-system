@@ -6,5 +6,5 @@ const router = express.Router();
 router.post("/register", register);
 router.post("/login", login);
 router.get("/profile", getProfile);
-router.post("/register", userUpload.single("image"), register);
+router.post("/register", userUpload.single("image"), registerUser);
 export default router;

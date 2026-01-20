@@ -15,5 +15,5 @@ router.get("/", getMovies);
 
 // Get movie details by ID
 router.get("/:movieId", getMovieDetails);
-
+router.post("/", movieUpload.single("image"), addMovie);
 export default router;
