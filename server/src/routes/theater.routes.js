@@ -4,6 +4,7 @@ import {
   createTheater,
   getTheaters,
   updateTheater,
+  deleteTheater,
   toggleTheaterStatus
 } from "../modules/theater/theater.controller.js";
 
@@ -24,6 +25,7 @@ const router = express.Router();
 router.post("/", createTheater);
 router.get("/", getTheaters);
 router.put("/:theaterId", updateTheater);
+router.delete("/:theaterId", deleteTheater);
 router.patch("/:theaterId/status", toggleTheaterStatus);
 
 /* Screen routes */
