@@ -1,7 +1,6 @@
 // src/pages/super-admin/MovieList.jsx
 import React, { useEffect, useState } from "react";
-import Table from "../../components/Table/Table";
-import Badge from "../../components/Badge/Badge";
+import Card from "../../components/Card/Card";
 import Button from "../../components/Button/Button";
 import EmptyState from "../../components/EmptyState/EmptyState";
 import Modal from "../../components/Modal/Modal";
@@ -9,12 +8,7 @@ import Input from "../../components/Input/Input";
 import Loader from "../../components/Loader/Loader";
 import { toast, showSuccess, showError, showLoading } from "../../utils/toast";
 
-import {
-  getMovies,
-  createMovie,
-  updateMovie,
-  deleteMovie,
-} from "../../api/movie.api";
+import { getMovies, updateMovie, deleteMovie } from "../../api/movie.api";
 
 const STATUS_OPTIONS = ["UPCOMING", "NOW_SHOWING", "ARCHIVED"];
 
@@ -31,7 +25,7 @@ const MovieList = () => {
     genre: [],
     releaseDate: "",
     status: "UPCOMING",
-    image: "",
+    poster: null, // 👈 store file object here
   });
 
   const fetchMovies = async () => {
@@ -39,7 +33,7 @@ const MovieList = () => {
     try {
       const res = await getMovies();
       setMovies(res.data.data || []);
-    } catch (err) {
+    } catch {
       showError("Failed to fetch movies");
     } finally {
       setLoading(false);
@@ -54,42 +48,54 @@ const MovieList = () => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleFileUpload = async (e) => {
+  const handleFileUpload = (e) => {
     const file = e.target.files[0];
-    if (!file) return;
-
-    const form = new FormData();
-    form.append("poster", file);
-
-    try {
-      const res = await fetch("http://localhost:5000/api/upload/poster", {
-        method: "POST",
-        body: form,
-      });
-      const data = await res.json();
-      if (data?.url) {
-        handleChange("image", data.url);
-        showSuccess("Poster uploaded");
-      } else {
-        showError("Upload failed");
-      }
-    } catch {
-      showError("Upload error");
+    if (file) {
+      setFormData((prev) => ({ ...prev, poster: file }));
     }
   };
 
   const handleSave = async () => {
     const toastId = showLoading("Saving movie...");
     try {
+      const form = new FormData();
+      if (formData.poster) form.append("poster", formData.poster);
+      form.append("title", formData.title);
+      form.append("description", formData.description);
+      form.append("duration", formData.duration);
+      form.append("language", formData.language);
+      form.append("genre", formData.genre);
+      form.append("releaseDate", formData.releaseDate);
+      form.append("status", formData.status);
+
+      let res;
       if (editingMovie) {
-        await updateMovie(editingMovie._id, formData);
-        showSuccess("Movie updated successfully");
+        res = await fetch(
+          `http://localhost:5000/api/movies/${editingMovie._id}`,
+          {
+            method: "PUT",
+            body: form,
+          },
+        );
       } else {
-        await createMovie(formData);
-        showSuccess("Movie created successfully");
+        res = await fetch("http://localhost:5000/api/movies", {
+          method: "POST",
+          body: form,
+        });
       }
-      setModalOpen(false);
-      fetchMovies();
+
+      const data = await res.json();
+      if (data.success) {
+        showSuccess(
+          editingMovie
+            ? "Movie updated successfully"
+            : "Movie created successfully",
+        );
+        setModalOpen(false);
+        fetchMovies();
+      } else {
+        showError(data.error || "Failed to save movie");
+      }
     } catch {
       showError("Failed to save movie");
     } finally {
@@ -109,79 +115,6 @@ const MovieList = () => {
       toast.dismiss(toastId);
     }
   };
-
-  const columns = [
-    { key: "title", label: "Title" },
-    { key: "duration", label: "Duration (min)" },
-    { key: "language", label: "Language", render: (row) => row.language?.join(", ") },
-    { key: "genre", label: "Genre", render: (row) => row.genre?.join(", ") },
-    { key: "releaseDate", label: "Release Date" },
-    {
-      key: "status",
-      label: "Status",
-      render: (row) => (
-        <Badge
-          status={
-            row.status === "NOW_SHOWING"
-              ? "success"
-              : row.status === "UPCOMING"
-              ? "info"
-              : "error"
-          }
-        >
-          {row.status}
-        </Badge>
-      ),
-    },
-    {
-      key: "image",
-      label: "Poster",
-      render: (row) =>
-        row.image ? (
-          <img
-            src={`http://localhost:5000${row.image}`}
-            alt={row.title}
-            style={{ width: "80px", height: "120px", objectFit: "cover", borderRadius: "4px" }}
-          />
-        ) : (
-          "No Poster"
-        ),
-    },
-    {
-      key: "actions",
-      label: "Actions",
-      render: (row) => (
-        <>
-          <Button
-            size="sm"
-            onClick={() => {
-              setEditingMovie(row);
-              setFormData({
-                title: row.title,
-                description: row.description,
-                duration: row.duration,
-                language: row.language,
-                genre: row.genre,
-                releaseDate: row.releaseDate?.split("T")[0] || "",
-                status: row.status,
-                image: row.image,
-              });
-              setModalOpen(true);
-            }}
-          >
-            Edit
-          </Button>
-          <Button
-            size="sm"
-            variant="danger"
-            onClick={() => handleDelete(row._id)}
-          >
-            Delete
-          </Button>
-        </>
-      ),
-    },
-  ];
 
   return (
     <div>
@@ -203,7 +136,7 @@ const MovieList = () => {
               genre: [],
               releaseDate: "",
               status: "UPCOMING",
-              image: "",
+              poster: null,
             });
             setModalOpen(true);
           }}
@@ -221,18 +154,78 @@ const MovieList = () => {
                 genre: [],
                 releaseDate: "",
                 status: "UPCOMING",
-                image: "",
+                poster: null,
               });
               setModalOpen(true);
             }}
           >
             Add Movie
           </Button>
-          <Table columns={columns} data={movies} />
+
+          <div className="card-grid">
+            {movies.map((movie) => (
+              <Card key={movie._id} size="md">
+                <img
+                  src={`http://localhost:5000${movie.image}`}
+                  alt={movie.title}
+                  style={{
+                    width: "100%",
+                    height: "200px",
+                    objectFit: "cover",
+                    borderRadius: "8px",
+                  }}
+                />
+                <h3>{movie.title}</h3>
+                <p>{movie.description}</p>
+                <p>
+                  <strong>Duration:</strong> {movie.duration} min
+                </p>
+                <p>
+                  <strong>Language:</strong> {movie.language?.join(", ")}
+                </p>
+                <p>
+                  <strong>Genre:</strong> {movie.genre?.join(", ")}
+                </p>
+                <p>
+                  <strong>Status:</strong> {movie.status}
+                </p>
+                <p>
+                  <strong>Release:</strong> {movie.releaseDate?.split("T")[0]}
+                </p>
+                <div className="card-actions">
+                  <Button
+                    size="sm"
+                    onClick={() => {
+                      setEditingMovie(movie);
+                      setFormData({
+                        title: movie.title,
+                        description: movie.description,
+                        duration: movie.duration,
+                        language: movie.language,
+                        genre: movie.genre,
+                        releaseDate: movie.releaseDate?.split("T")[0] || "",
+                        status: movie.status,
+                        poster: null, // file not preloaded
+                      });
+                      setModalOpen(true);
+                    }}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="danger"
+                    onClick={() => handleDelete(movie._id)}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </Card>
+            ))}
+          </div>
         </>
       )}
 
-      {/* Modal for Add/Edit */}
       <Modal
         open={modalOpen}
         title={editingMovie ? "Edit Movie" : "Add Movie"}
@@ -240,22 +233,35 @@ const MovieList = () => {
       >
         <div className="form-group">
           <label>Title</label>
-          <Input value={formData.title} onChange={(val) => handleChange("title", val)} />
+          <Input
+            value={formData.title}
+            onChange={(val) => handleChange("title", val)}
+          />
         </div>
         <div className="form-group">
           <label>Description</label>
-          <Input value={formData.description} onChange={(val) => handleChange("description", val)} />
+          <Input
+            value={formData.description}
+            onChange={(val) => handleChange("description", val)}
+          />
         </div>
         <div className="form-group">
           <label>Duration (minutes)</label>
-          <Input type="number" value={formData.duration} onChange={(val) => handleChange("duration", val)} />
+          <Input
+            type="number"
+            value={formData.duration}
+            onChange={(val) => handleChange("duration", val)}
+          />
         </div>
         <div className="form-group">
           <label>Language (comma separated)</label>
           <Input
             value={formData.language?.join(", ") || ""}
             onChange={(val) =>
-              handleChange("language", val.split(",").map((lang) => lang.trim()))
+              handleChange(
+                "language",
+                val.split(",").map((lang) => lang.trim()),
+              )
             }
           />
         </div>
@@ -264,33 +270,72 @@ const MovieList = () => {
           <Input
             value={formData.genre?.join(", ") || ""}
             onChange={(val) =>
-              handleChange("genre", val.split(",").map((g) => g.trim()))
+              handleChange(
+                "genre",
+                val.split(",").map((g) => g.trim()),
+              )
             }
           />
         </div>
         <div className="form-group">
           <label>Release Date</label>
-          <Input type="date" value={formData.releaseDate} onChange={(val) => handleChange("releaseDate", val)} />
+          <Input
+            type="date"
+            value={formData.releaseDate}
+            onChange={(val) => handleChange("releaseDate", val)}
+          />
         </div>
         <div className="form-group">
           <label>Status</label>
-          <select value={formData.status} onChange={(e) => handleChange("status", e.target.value)}>
+          <select
+            value={formData.status}
+            onChange={(e) => handleChange("status", e.target.value)}
+          >
             {STATUS_OPTIONS.map((opt) => (
-              <option key={opt} value={opt}>{opt}</option>
+              <option key={opt} value={opt}>
+                {opt}
+              </option>
             ))}
           </select>
         </div>
         <div className="form-group">
           <label>Poster</label>
-          <input type="file" accept="image/*" onChange={handleFileUpload} />
+          <input type="file" name="poster" accept="image/*" onChange={handleFileUpload} />
         </div>
-        <Button onClick={handleSave}>
-          {editingMovie ? "Update" : "Save"}
-        </Button>
+        <Button onClick={handleSave}>{editingMovie ? "Update" : "Save"}</Button>
       </Modal>
+
+      <style jsx>{`
+        .card-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+          gap: 20px;
+          margin-top: 20px;
+        }
+        .card-actions {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 10px;
+        }
+        .form-group {
+          margin-bottom: 16px;
+          display: flex;
+          flex-direction: column;
+        }
+        .form-group label {
+          margin-bottom: 6px;
+          font-weight: 500;
+          color: #374151;
+        }
+        .form-group input,
+        .form-group select {
+          padding: 8px;
+          border: 1px solid #d1d5db;
+          border-radius: 6px;
+        }
+      `}</style>
     </div>
   );
 };
 
 export default MovieList;
-

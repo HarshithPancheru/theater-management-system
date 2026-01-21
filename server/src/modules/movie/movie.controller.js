@@ -1,16 +1,27 @@
 import * as movieService from "./movie.service.js";
 
 // ➡️ Add a new movie
-export const addMovie = async (req, res, next) => {
+export const addMovie = async (req, res) => {
   try {
-    const movieData = req.body;
+    console.log("===== DEBUG START =====");
+    console.log("req.body:", req.body); // all text fields from FormData
+    console.log("req.file:", req.file); // file info from Multer
+    // console.log("===== DEBUG END =====");
+    const movieData = { ...req.body };
+
+    // Handle file upload
     if (req.file) {
-      movieData.image = req.file.path; // ✅ store uploaded cover photo path
+      movieData.image = `/uploads/movies/${req.file.filename}`;
+    } else if (req.body.image) {
+      movieData.image = req.body.image; // fallback if frontend sends URL
     }
+
     const movie = await movieService.addMovie(movieData);
-    res.json({ success: true, data: movie });
+
+    res.status(201).json({ success: true, data: movie });
   } catch (err) {
-    next(err);
+    console.error("Error adding movie:", err.message);
+    res.status(500).json({ success: false, error: err.message });
   }
 };
 
@@ -29,7 +40,9 @@ export const getMovieDetails = async (req, res, next) => {
   try {
     const movie = await movieService.getMovieDetails(req.params.movieId);
     if (!movie) {
-      return res.status(404).json({ success: false, message: "Movie not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Movie not found" });
     }
     res.json({ success: true, data: movie });
   } catch (err) {
@@ -38,24 +51,45 @@ export const getMovieDetails = async (req, res, next) => {
 };
 
 // ➡️ Update movie by ID
-export const updateMovie = async (req, res, next) => {
+export const updateMovie = async (req, res) => {
   try {
-    const movie = await movieService.updateMovie(req.params.movieId, req.body);
-    if (!movie) {
-      return res.status(404).json({ success: false, message: "Movie not found" });
+    const movieData = { ...req.body };
+
+    // Normalize arrays
+    if (typeof movieData.language === "string") {
+      movieData.language = movieData.language.split(",").map((l) => l.trim());
     }
-    res.json({ success: true, data: movie });
+    if (typeof movieData.genre === "string") {
+      movieData.genre = movieData.genre.split(",").map((g) => g.trim());
+    }
+
+    // Handle poster upload
+    if (req.file) {
+      movieData.image = `/uploads/movies/${req.file.filename}`;
+    }
+
+    const updated = await movieService.updateMovie(req.params.movieId, movieData);
+
+    if (!updated) {
+      return res.status(404).json({ success: false, error: "Movie not found" });
+    }
+
+    res.status(200).json({ success: true, data: updated });
   } catch (err) {
-    next(err);
+    console.error("Update error:", err);
+    res.status(500).json({ success: false, error: err.message });
   }
 };
+
 
 // ➡️ Delete movie by ID
 export const deleteMovie = async (req, res, next) => {
   try {
     const deleted = await movieService.deleteMovie(req.params.movieId);
     if (!deleted) {
-      return res.status(404).json({ success: false, message: "Movie not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Movie not found" });
     }
     res.json({ success: true, message: "Movie deleted" });
   } catch (err) {
