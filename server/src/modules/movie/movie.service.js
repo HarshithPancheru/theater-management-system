@@ -17,8 +17,8 @@ export const getMovieDetails = async (id) => {
 };
 
 // ➡️ Update movie by ID
-export const updateMovie = async (id, updateData) => {
-  return await Movie.findByIdAndUpdate(id, updateData, { new: true });
+export const updateMovie = async (id, data) => {
+  return await Movie.findByIdAndUpdate(id, data, { new: true });
 };
 
 // ➡️ Delete movie by ID
