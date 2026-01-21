@@ -1,0 +1,54 @@
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  color: var(--text-primary);
+
+  transition: box-shadow 0.2s ease, transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+/* ======================
+   CARD SIZES
+   ====================== */
+
+.card--sm {
+  padding: 12px;
+  font-size: var(--font-size-secondary);
+  font-weight: var(--font-weight-regular);
+}
+
+.card--md {
+  padding: 16px;
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-medium);
+}
+
+.card--lg {
+  padding: 20px;
+  font-size: var(--font-size-card);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ======================
+   NON-CLICKABLE CARD
+   ====================== */
+
+.card--static:hover {
+  box-shadow: 0 6px 14px rgba(126, 21, 207, 0.173);
+  border-color: var(--border-light);
+}
+
+/* ======================
+   CLICKABLE CARD
+   ====================== */
+
+.card--clickable {
+  cursor: pointer;
+}
+
+.card--clickable:hover {
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  border-color: var(--color-primary);
+}
