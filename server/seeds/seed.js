@@ -115,7 +115,7 @@ const runSeed = async () => {
       title: "Pathaan",
       description: "Action thriller",
       duration: 150,
-      language: ["Hindi", "English"],
+      language: "Hindi",
       genre: ["Action", "Thriller"],
       releaseDate: new Date("2026-01-01"),
       status: "NOW_SHOWING"
