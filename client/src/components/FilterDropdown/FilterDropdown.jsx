@@ -3,6 +3,7 @@ import "./FilterDropdown.css";
 import Button from "../Button/Button";
 
 const FilterDropdown = ({
+  align="right",
   statusOptions = [],
   selectedStatus,
   onStatusChange,
@@ -46,7 +47,7 @@ const FilterDropdown = ({
 
       {/* Dropdown panel */}
       {open && (
-        <div className="filter-dropdown__panel">
+        <div className={`filter-dropdown__panel filter-dropdown__panel--${align}`}>
           <div className="filter-dropdown__header">Filter By</div>
 
           <div className="filter-dropdown__item">
