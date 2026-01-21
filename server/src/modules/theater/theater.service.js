@@ -81,3 +81,15 @@ export const toggleTheaterStatus = async (theaterId) => {
 
   return theater;
 };
+
+export const deleteTheater = async (theaterId) => {
+  const theater = await Theater.findById(theaterId);
+
+  if (!theater) {
+    throw new Error("Theater not found");
+  }
+
+  await theater.deleteOne();
+
+  return theater;
+};
