@@ -4,7 +4,7 @@ import Loader from "../Loader/Loader";
 const Button = ({
   children,
   variant = "primary", // primary | secondary | danger
-  size = "md",         // sm | md | lg
+  size = "md", // sm | md | lg
   disabled = false,
   loading = false,
   onClick,
@@ -23,7 +23,15 @@ const Button = ({
       onClick={onClick}
     >
       {/* Button text */}
-      <span className={`btn__text ${loading ? "btn__text--hidden" : ""}`}>
+      <span
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap:"2px"
+        }}
+        className={`btn__text ${loading ? "btn__text--hidden" : ""}`}
+      >
         {children}
       </span>
 

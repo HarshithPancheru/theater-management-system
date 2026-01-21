@@ -250,7 +250,147 @@ const data = [
 
 ---
 
-## 8️⃣ Toast Notifications
+## 8️⃣ FilterDropdown Component
+
+### Purpose
+
+Used to apply filters through a dropdown panel triggered by a Filter button.
+Commonly used in list and table pages (Movies, Bookings, Users, etc.).
+
+### Props
+
+* `statusOptions`: Array of { label, value } options
+* `selectedStatus`: Currently selected filter value
+* `onStatusChange`: Callback when dropdown value changes
+* `onApply`: Callback when Apply is clicked
+* `onReset`: Callback when Reset is clicked
+
+This is a controlled component. All filter state is managed by the parent.
+
+### Example Usage - 1
+
+```jsx
+import FilterDropdown from "../../components/FilterDropdown/FilterDropdown";
+
+<Card size="md" clickable onClick={onClick}>
+      <img
+        src={movie.poster}
+        alt={movie.title}
+        style={{
+          width: "100%",
+          height: "260px",
+          objectFit: "cover",
+          borderRadius: "var(--radius-md)",
+          marginBottom: "12px",
+        }}
+      />
+
+      <h4 style={{ fontWeight: "var(--font-weight-semibold)" }}>
+        {movie.title}
+      </h4>
+
+      <p
+        style={{
+          fontSize: "var(--font-size-secondary)",
+          color: "var(--text-secondary)",
+        }}
+      >
+        {movie.genre}
+      </p>
+    </Card>
+```
+
+### Example Usage - 2
+
+```jsx
+<Card size="sm">
+  <p>Total Bookings</p>
+  <h3>124</h3>
+</Card>
+```
+
+### Hover Behavior
+* Non-clickable card
+  * Subtle hover shadow
+  * Default cursor
+
+* Clickable card
+  * Pointer cursor
+  * Stronger hover shadow
+  * Slight lift effect
+  * Primary border highlight
+
+### Notes
+
+* Card does NOT control image size
+* Image size belongs to content components (MovieCard, TheaterCard, etc.)
+* Keeps Card reusable across different use cases
+
+---
+
+## 9️⃣ Card Component
+
+### Purpose
+
+Reusable container component for displaying movies, theaters, summaries, or statistics.
+
+### Card handles:
+
+* Spacing
+* Typography scale
+* Hover behavior
+* Click interaction
+
+Content layout is controlled by child components.
+
+### Props
+
+* `size`: `sm | md | lg` (default: `md`)
+* `clickable `: boolean (default: `false`)
+* `onClick `: click handler (only when clickable)
+* `children`: Card content
+
+### Example Usage
+
+```jsx
+import Card from "../../components/Card/Card";
+
+const [status, setStatus] = useState("");
+
+  const statusOptions = [
+    { label: "Pending", value: "pending" },
+    { label: "Confirmed", value: "confirmed" },
+    { label: "Cancelled", value: "cancelled" },
+  ];
+
+  const handleApply = () => {
+    console.log("Apply filter:", status);
+  };
+
+  const handleReset = () => {
+    setStatus("");
+  };
+
+  return (
+    <FilterDropdown
+      statusOptions={statusOptions}
+      selectedStatus={status}
+      onStatusChange={setStatus}
+      onApply={handleApply}
+      onReset={handleReset}
+    />
+  );
+```
+
+### Notes
+
+* Dropdown opens below the Filter button
+* Reset clears filters and closes dropdown
+* API calls and filtering logic stay in the page component
+
+---
+
+## 1️⃣0️⃣ Toast Notifications
 
 ### Purpose
 
