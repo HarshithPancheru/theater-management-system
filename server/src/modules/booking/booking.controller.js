@@ -73,6 +73,12 @@ export const getMyBookings = async (req, res, next) => {
 
 /* Get booking details */
 export const getBookingDetails = async (req, res, next) => {
+
+
+  //TODO
+  req.user = {id : "696f72269d88fdb792d23f3f"};
+  
+
   try {
     const booking = await bookingService.getBookingDetails(
       req.params.bookingId,
