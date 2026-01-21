@@ -34,3 +34,8 @@ export const editTheater = async (theaterId, data) => {
   const response = await api.put(`/theaters/${theaterId}`, data);
   return response.data;
 };
+
+export const deleteTheater = async (theaterId) => {
+  const response = await api.delete(`/theaters/${theaterId}`);
+  return response.data;
+};

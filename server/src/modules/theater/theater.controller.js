@@ -78,3 +78,19 @@ export const toggleTheaterStatus = async (req, res, next) => {
     next(error);
   }
 };
+
+export const deleteTheater = async (req, res, next) => {
+  try {
+    const { theaterId } = req.params;
+
+    const deleted = await theaterService.deleteTheater(theaterId);
+
+    return res.json({
+      success: true,
+      message: "Theater deleted successfully",
+      data: deleted
+    });
+  } catch (error) {
+    next(error);
+  }
+};

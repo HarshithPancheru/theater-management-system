@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import {
   getTheaters,
   addTheater,
-  editTheater
+  editTheater,
+   deleteTheater
 } from "../../api/theater.api";
 
 import Button from "../../components/Button/Button";
@@ -45,13 +46,24 @@ const TheaterList = () => {
         </Badge>
       ),
       actions: (
-        <Button
-          variant="secondary"
-          onClick={() => handleEdit(theater)}
-        >
-          Update
-        </Button>
-      )
+  <>
+    <Button
+      variant="secondary"
+      onClick={() => handleEdit(theater)}
+    >
+      Update
+    </Button>
+
+    <Button
+      variant="danger"
+      onClick={() => handleDelete(theater._id)}
+      style={{ marginLeft: "8px" }}
+    >
+      Delete
+    </Button>
+  </>
+)
+
     }));
 
     setTheaters(enriched);
@@ -80,6 +92,13 @@ const TheaterList = () => {
     });
     setOpen(true);
   };
+
+  const handleDelete = async (theaterId) => {
+  if (!window.confirm("Are you sure you want to delete this theater?")) return;
+  await deleteTheater(theaterId);
+  fetchTheaters();
+};
+
 
   /* ---------------- SUBMIT ---------------- */
   const handleSubmit = async (e) => {
