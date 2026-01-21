@@ -1,29 +1,102 @@
+import { useState, useRef, useEffect } from "react";
+import { Icon } from "@iconify/react";
 import "./Header.css";
-import SearchBar from "../SearchBar/SearchBar";
-
-import React from "react";
 
 const Header = () => {
+
+  // Data fetched from backend
+  const userName = "Melwin";
+  const userInitial = userName.charAt(0).toUpperCase();
+
+  const notifications = [
+    { id: 1, text: "New booking received sjnsjns  snkns sikns isnkn " },
+    { id: 2, text: "Theater approved successfully" },
+    { id: 1, text: "New booking received sjnsjns  snkns sikns isnkn " },
+    { id: 2, text: "Theater approved successfully" },
+    { id: 1, text: "New booking received sjnsjns  snkns sikns isnkn " },
+  ];
+
+  const [openNotif, setOpenNotif] = useState(false);
+  const [openProfile, setOpenProfile] = useState(false);
+  const notifRef = useRef(null);
+  const profileRef = useRef(null);
+
+  // close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        notifRef.current &&
+        !notifRef.current.contains(e.target) &&
+        profileRef.current &&
+        !profileRef.current.contains(e.target)
+      ) {
+        setOpenNotif(false);
+        setOpenProfile(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <header className="app-header">
-      {/* title */}
+      {/* Title */}
       <div className="title">
-        <span className="header-title">Theater Management</span>
+        <span className="header-title">Hello {userName},</span>
       </div>
-      {/* search bar + profile icon */}
+
+      {/* Right side */}
       <div className="search-bar-plus-icon">
-        <SearchBar />
+        {/* Notifications */}
+        <div className="notification-wrapper" ref={notifRef}>
+          <div
+            className="notification-icon"
+            onClick={() => {
+              setOpenNotif((p) => !p);
+              setOpenProfile(false);
+            }}
+          >
+            <Icon icon="mdi:bell-outline" width="27" />
+            {notifications.length > 0 && (
+              <span className="notification-badge">
+                {notifications.length}
+              </span>
+            )}
+          </div>
+
+          {openNotif && (
+            <div className="notification-dropdown">
+              <div className="dropdown-header">Notifications</div>
+
+              {notifications.map((n) => (
+                <div key={n.id} className="notification-item">
+                  {n.text}
+                </div>
+              ))}
+
+              <div className="dropdown-footer">View all</div>
+            </div>
+          )}
+        </div>
+
         {/* Profile */}
-        <div className="profile-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M20 21C20 18.2386 16.4183 16 12 16C7.58172 16 4 18.2386 4 21"
-              stroke="white"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-            <circle cx="12" cy="8" r="4" stroke="white" strokeWidth="2" />
-          </svg>
+        <div className="profile-wrapper" ref={profileRef}>
+          <div
+            className="profile-icon"
+            onClick={() => {
+              setOpenProfile((p) => !p);
+              setOpenNotif(false);
+            }}
+          >
+            {userInitial}
+          </div>
+
+          {openProfile && (
+            <div className="profile-dropdown">
+              <div className="profile-item logout">Logout</div>
+            </div>
+          )}
         </div>
       </div>
     </header>

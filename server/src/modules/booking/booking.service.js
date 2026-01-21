@@ -99,7 +99,8 @@ export const createBooking = async (
 
 /* Get bookings for logged-in user */
 export const getMyBookings = async (userId) => {
-  const bookings = await Booking.find({ userId }, {_id:1, showId:1})
+  const bookings = await Booking.find({ userId }, { _id: 1, showId: 1 })
+  .select("status")
     .sort({ createdAt: -1 })
     .populate({
       path: "showId",
@@ -107,11 +108,11 @@ export const getMyBookings = async (userId) => {
       populate: [
         { path: "movieId", select: "title" },
         {
-          path: "screenId", select:"_id",
+          path: "screenId", select: "_id type",
           populate: { path: "theaterId", select: "name location" }
         }
       ]
-    });   
+    });
 
   return bookings.map(b => ({
     bookingId: b._id,
@@ -119,7 +120,9 @@ export const getMyBookings = async (userId) => {
     startTime: b.showId.startTime,
     date: b.showId.date,
     theaterName: b.showId.screenId.theaterId.name,
-    location: b.showId.screenId.theaterId.location
+    location: b.showId.screenId.theaterId.location,
+    screenType: b.showId.screenId.type,
+    status:b.status
   }));
 
 };
@@ -127,16 +130,56 @@ export const getMyBookings = async (userId) => {
 
 /* Get booking details */
 export const getBookingDetails = async (bookingId, userId) => {
-  const booking = await Booking.findOne({
-    _id: bookingId,
-    userId
-  });
+  const booking = await Booking.findOne({ _id: bookingId, userId })
+  .select("totalAmount paymentMethod status")
+    .populate([
+      {
+        path: "seatIds",
+        select: "seatLabel rowLabel category"
+      },
+      {
+        path: "showId",
+        select: "startTime date",
+        populate: [
+          {
+            path: "movieId",
+            select: "title duration language"
+          },
+          {
+            path: "screenId",
+            select: "name type",
+            populate:
+            {
+              path: "theaterId",
+              select: "name location amenities contactNumber"
+            }
+          }]
+      }
+    ]);
 
   if (!booking) {
     throw new Error("Booking not found");
   }
 
-  return booking;
+  return {
+    bookingId:booking._id,
+    movieId:booking.showId.movieId._id,
+    title:booking.showId.movieId.title,
+    duration:booking.showId.movieId.duration,
+    language:booking.showId.movieId.language,
+    theater:booking.showId.screenId.theaterId.name,
+    location:booking.showId.screenId.theaterId.location,
+    amenities:booking.showId.screenId.theaterId.amenities,
+    contactNumber:booking.showId.screenId.theaterId.contactNumber,
+    screen:booking.showId.screenId.name,
+    screenType:booking.showId.screenId.type,
+    date:booking.showId.date,
+    time:booking.showId.startTime,
+    seats: booking.seatIds.map((seat)=>`${seat.seatLabel}[${seat.category}]`),
+    amount:booking.totalAmount,
+    paymentMethod:booking.paymentMethod,
+    status:booking.status
+  };
 };
 
 /* Cancel booking */

@@ -13,9 +13,9 @@ Used to display small status labels like **Success**, **Warning**, **Error**, or
 
 ### Props
 
-* `status` (optional): `success | warning | error | info` (default: `info`)
-* `size` (optional): `sm | md` (default: `md`)
-* `children`: Text/content inside the badge
+- `status` (optional): `success | warning | error | info` (default: `info`)
+- `size` (optional): `sm | md` (default: `md`)
+- `children`: Text/content inside the badge
 
 ### Example Usage
 
@@ -29,10 +29,10 @@ import Badge from "../../components/Badge/Badge";
 
 ### When to use
 
-* Booking status
-* Payment status
-* Theater availability
-* Approval states
+- Booking status
+- Payment status
+- Theater availability
+- Approval states
 
 ---
 
@@ -44,12 +44,12 @@ Primary action trigger with built-in variants, sizes, disabled and loading state
 
 ### Props
 
-* `variant`: `primary | secondary | danger` (default: `primary`)
-* `size`: `sm | md | lg` (default: `md`)
-* `disabled`: boolean
-* `loading`: boolean (shows loader & disables button)
-* `onClick`: function
-* `type`: `button | submit`
+- `variant`: `primary | secondary | danger` (default: `primary`)
+- `size`: `sm | md | lg` (default: `md`)
+- `disabled`: boolean
+- `loading`: boolean (shows loader & disables button)
+- `onClick`: function
+- `type`: `button | submit`
 
 ### Example Usage
 
@@ -71,8 +71,8 @@ import Button from "../../components/Button/Button";
 
 ### Notes
 
-* When `loading=true`, button is automatically disabled
-* Loader replaces button text visually
+- When `loading=true`, button is automatically disabled
+- Loader replaces button text visually
 
 ---
 
@@ -84,10 +84,10 @@ Shown when there is no data to display (tables, lists, dashboards).
 
 ### Props
 
-* `title`: Main message
-* `description` (optional): Additional explanation
-* `actionLabel` (optional): Button label
-* `onAction` (optional): Action callback
+- `title`: Main message
+- `description` (optional): Additional explanation
+- `actionLabel` (optional): Button label
+- `onAction` (optional): Action callback
 
 ### Example Usage
 
@@ -99,14 +99,14 @@ import EmptyState from "../../components/EmptyState/EmptyState";
   description="You haven't made any bookings yet."
   actionLabel="Book a Movie"
   onAction={() => navigate("/customer/movies")}
-/>
+/>;
 ```
 
 ### When to use
 
-* Empty tables
-* First-time user screens
-* No search results
+- Empty tables
+- First-time user screens
+- No search results
 
 ---
 
@@ -118,13 +118,13 @@ Standardized text input with label and error handling.
 
 ### Props
 
-* `label` (optional)
-* `type`: `text | password | email | number`
-* `placeholder`
-* `value`
-* `onChange` (returns value only)
-* `disabled`
-* `error` (string)
+- `label` (optional)
+- `type`: `text | password | email | number`
+- `placeholder`
+- `value`
+- `onChange` (returns value only)
+- `disabled`
+- `error` (string)
 
 ### Example Usage
 
@@ -137,13 +137,13 @@ import Input from "../../components/Input/Input";
   value={email}
   onChange={setEmail}
   error={emailError}
-/>
+/>;
 ```
 
 ### Notes
 
-* Error text is shown below input automatically
-* Input styling is theme-consistent
+- Error text is shown below input automatically
+- Input styling is theme-consistent
 
 ---
 
@@ -155,7 +155,7 @@ Lightweight spinner used for loading states.
 
 ### Props
 
-* `size`: `sm | md` (default: `md`)
+- `size`: `sm | md` (default: `md`)
 
 ### Example Usage
 
@@ -168,9 +168,9 @@ import Loader from "../../components/Loader/Loader";
 
 ### Common usage
 
-* Inside buttons
-* Page loading states
-* Inline async actions
+- Inside buttons
+- Page loading states
+- Inline async actions
 
 ---
 
@@ -182,30 +182,26 @@ Used for dialogs, confirmations, and forms.
 
 ### Props
 
-* `open`: boolean (controls visibility)
-* `title`: Modal heading
-* `children`: Modal body content
-* `onClose`: Close handler
+- `open`: boolean (controls visibility)
+- `title`: Modal heading
+- `children`: Modal body content
+- `onClose`: Close handler
 
 ### Example Usage
 
 ```jsx
 import Modal from "../../components/Modal/Modal";
 
-<Modal
-  open={isOpen}
-  title="Delete Booking"
-  onClose={() => setIsOpen(false)}
->
+<Modal open={isOpen} title="Delete Booking" onClose={() => setIsOpen(false)}>
   <p>Are you sure you want to delete this booking?</p>
-</Modal>
+</Modal>;
 ```
 
 ### Notes
 
-* Clicking outside modal closes it
-* Clicking inside modal does NOT close it
-* Modal renders nothing when `open=false`
+- Clicking outside modal closes it
+- Clicking inside modal does NOT close it
+- Modal renders nothing when `open=false`
 
 ---
 
@@ -217,8 +213,8 @@ Generic table for displaying structured data.
 
 ### Props
 
-* `columns`: Array of column definitions
-* `data`: Array of row objects
+- `columns`: Array of column definitions
+- `data`: Array of row objects
 
 ### Column Format
 
@@ -240,13 +236,13 @@ const data = [
   { name: "INOX Forum", city: "Mangalore", status: "Inactive" },
 ];
 
-<Table columns={columns} data={data} />
+<Table columns={columns} data={data} />;
 ```
 
 ### Notes
 
-* Automatically shows `EmptyState` when `data` is empty
-* Displays `-` when a cell value is missing
+- Automatically shows `EmptyState` when `data` is empty
+- Displays `-` when a cell value is missing
 
 ---
 
@@ -259,45 +255,156 @@ Commonly used in list and table pages (Movies, Bookings, Users, etc.).
 
 ### Props
 
-* `statusOptions`: Array of { label, value } options
-* `selectedStatus`: Currently selected filter value
-* `onStatusChange`: Callback when dropdown value changes
-* `onApply`: Callback when Apply is clicked
-* `onReset`: Callback when Reset is clicked
+- `align` : `left | right | center` (default:`right`)
+- `statusOptions`: Array of { label, value } options
+- `selectedStatus`: Currently selected filter value
+- `onStatusChange`: Callback when dropdown value changes
+- `onApply`: Callback when Apply is clicked
+- `onReset`: Callback when Reset is clicked
 
 This is a controlled component. All filter state is managed by the parent.
 
-### Example Usage - 1
+### Example Usage
 
 ```jsx
 import FilterDropdown from "../../components/FilterDropdown/FilterDropdown";
 
+const [status, setStatus] = useState("");
+
+const statusOptions = [
+  { label: "Pending", value: "pending" },
+  { label: "Confirmed", value: "confirmed" },
+  { label: "Cancelled", value: "cancelled" },
+];
+
+const handleApply = () => {
+  console.log("Apply filter:", status);
+};
+
+const handleReset = () => {
+  setStatus("");
+};
+
+return (
+  <FilterDropdown
+    align="left"
+    statusOptions={statusOptions}
+    selectedStatus={status}
+    onStatusChange={setStatus}
+    onApply={handleApply}
+    onReset={handleReset}
+  />
+);
+```
+
+### Notes
+
+- Dropdown opens below the Filter button
+- Reset clears filters and closes dropdown
+- API calls and filtering logic stay in the page component
+
+---
+
+## 9️⃣ SortDropdown Component
+
+### Purpose
+
+Used to apply sorting through a dropdown panel triggered by a Sort button.
+Allows users to select one or more fields and choose ascending or descending order.
+Sorting is applied only when Apply is clicked.
+
+By default, no sorting is applied and backend data order is shown.
+
+### Props
+
+- `align` (optional): `left | right | center` (default: `right`)
+- `options`: Array of sortable fields
+  - Format: `{ key, label }`
+- `onApply`: Callback fired when Apply or Reset is clicked
+  - Receives `null` when sorting is reset
+  - Receives an object when sorting is applied
+
+This is a controlled component. All filter state is managed by the parent.
+
+### Example Usage
+
+```jsx
+import SortDropdown from "../../components/SortDropdown/SortDropdown";
+
+const sortOptions = [
+  { key: "name", label: "Name" },
+  { key: "price", label: "Price" },
+];
+
+const handleSortApply = (sortConfig) => {
+  console.log(sortConfig);
+  // null → no sorting
+  // { price: "asc", name: "desc" }
+};
+
+<SortDropdown options={sortOptions} onApply={handleSortApply} />;
+```
+
+### Notes
+
+- Multiple sort fields can be selected
+- Each selected field defaults to ascending order
+- Reset clears sorting and closes the dropdown
+- Sorting logic and API calls stay in the page component
+
+---
+
+## 1️⃣0️⃣ Card Component
+
+### Purpose
+
+Reusable container component for displaying movies, theaters, summaries, or statistics.
+
+### Card handles:
+
+- Spacing
+- Typography scale
+- Hover behavior
+- Click interaction
+
+Content layout is controlled by child components.
+
+### Props
+
+- `size`: `sm | md | lg` (default: `md`)
+- `clickable `: boolean (default: `false`)
+- `onClick `: click handler (only when clickable)
+- `children`: Card content
+
+### Example Usage - 1
+
+```jsx
+import Card from "../../components/Card/Card";
+
 <Card size="md" clickable onClick={onClick}>
-      <img
-        src={movie.poster}
-        alt={movie.title}
-        style={{
-          width: "100%",
-          height: "260px",
-          objectFit: "cover",
-          borderRadius: "var(--radius-md)",
-          marginBottom: "12px",
-        }}
-      />
+  <img
+    src={movie.poster}
+    alt={movie.title}
+    style={{
+      width: "100%",
+      height: "260px",
+      objectFit: "cover",
+      borderRadius: "var(--radius-md)",
+      marginBottom: "12px",
+    }}
+  />
 
-      <h4 style={{ fontWeight: "var(--font-weight-semibold)" }}>
-        {movie.title}
-      </h4>
+  <h4 style={{ fontWeight: "var(--font-weight-semibold)" }}>{movie.title}</h4>
 
-      <p
-        style={{
-          fontSize: "var(--font-size-secondary)",
-          color: "var(--text-secondary)",
-        }}
-      >
-        {movie.genre}
-      </p>
-    </Card>
+  <p
+    style={{
+      fontSize: "var(--font-size-secondary)",
+      color: "var(--text-secondary)",
+    }}
+  >
+    {movie.genre}
+  </p>
+</Card>;
 ```
 
 ### Example Usage - 2
@@ -310,87 +417,67 @@ import FilterDropdown from "../../components/FilterDropdown/FilterDropdown";
 ```
 
 ### Hover Behavior
-* Non-clickable card
-  * Subtle hover shadow
-  * Default cursor
 
-* Clickable card
-  * Pointer cursor
-  * Stronger hover shadow
-  * Slight lift effect
-  * Primary border highlight
+- Non-clickable card
+  - Subtle hover shadow
+  - Default cursor
+
+- Clickable card
+  - Pointer cursor
+  - Stronger hover shadow
+  - Slight lift effect
+  - Primary border highlight
 
 ### Notes
 
-* Card does NOT control image size
-* Image size belongs to content components (MovieCard, TheaterCard, etc.)
-* Keeps Card reusable across different use cases
+- Card does NOT control image size
+- Image size belongs to content components (MovieCard, TheaterCard, etc.)
+- Keeps Card reusable across different use cases
 
 ---
 
-## 9️⃣ Card Component
+## 1️⃣1️⃣ SearchBar Component
 
 ### Purpose
 
-Reusable container component for displaying movies, theaters, summaries, or statistics.
+Used to capture search input for filtering lists and tables.
+The SearchBar is a controlled, reusable UI component and does not handle any search or API logic internally.
 
-### Card handles:
-
-* Spacing
-* Typography scale
-* Hover behavior
-* Click interaction
-
-Content layout is controlled by child components.
+It supports different sizes and includes a built-in clear (×) button.
 
 ### Props
 
-* `size`: `sm | md | lg` (default: `md`)
-* `clickable `: boolean (default: `false`)
-* `onClick `: click handler (only when clickable)
-* `children`: Card content
+- `value`: Current search value (controlled)
+- `onChange`: Callback fired when search text changes
+- `placeholder` (optional): Placeholder text (default: "`Search...`")
+- `size` (optional): `sm | md | lg` (default: `md`)
+- `disabled` (optional): Disables input and actions
 
 ### Example Usage
 
 ```jsx
-import Card from "../../components/Card/Card";
+import SearchBar from "../../components/SearchBar/SearchBar";
 
-const [status, setStatus] = useState("");
+const [search, setSearch] = useState("");
 
-  const statusOptions = [
-    { label: "Pending", value: "pending" },
-    { label: "Confirmed", value: "confirmed" },
-    { label: "Cancelled", value: "cancelled" },
-  ];
-
-  const handleApply = () => {
-    console.log("Apply filter:", status);
-  };
-
-  const handleReset = () => {
-    setStatus("");
-  };
-
-  return (
-    <FilterDropdown
-      statusOptions={statusOptions}
-      selectedStatus={status}
-      onStatusChange={setStatus}
-      onApply={handleApply}
-      onReset={handleReset}
-    />
-  );
+<SearchBar
+  value={search}
+  onChange={setSearch}
+  placeholder="Search theaters..."
+  size="md"
+/>;
 ```
 
 ### Notes
 
-* Dropdown opens below the Filter button
-* Reset clears filters and closes dropdown
-* API calls and filtering logic stay in the page component
+- Clear (×) button appears only when input has value
+- Clearing the input calls `onChange("")`
+- Component is layout-agnostic; parent controls width and placement
+- Search logic, debouncing, and API calls must be handled in the page component
 
 ---
 
-## 1️⃣0️⃣ Toast Notifications
+## 1️⃣2️⃣ Toast Notifications
 
 ### Purpose
 
@@ -432,9 +519,9 @@ showSuccess("Booking confirmed successfully");
 
 Use for:
 
-* Successful form submissions
-* Completed actions
-* API success responses
+- Successful form submissions
+- Completed actions
+- API success responses
 
 ---
 
@@ -446,9 +533,9 @@ showError("Failed to create booking");
 
 Use for:
 
-* API errors
-* Validation failures
-* Permission issues
+- API errors
+- Validation failures
+- Permission issues
 
 ---
 
@@ -460,8 +547,8 @@ showInfo("Fetching latest data...");
 
 Use for:
 
-* Informational messages
-* Non-blocking notices
+- Informational messages
+- Non-blocking notices
 
 ---
 
@@ -476,24 +563,24 @@ toast.dismiss(toastId);
 
 Use for:
 
-* Long-running API calls
-* Payment flows
-* Multi-step actions
+- Long-running API calls
+- Payment flows
+- Multi-step actions
 
 ---
 
 ### Guidelines
 
-* Always use toast utilities (`utils/toast.js`)
-* Do NOT call `react-hot-toast` directly
-* Keep messages short and user-friendly
-* Avoid triggering toast inside render loops
+- Always use toast utilities (`utils/toast.js`)
+- Do NOT call `react-hot-toast` directly
+- Keep messages short and user-friendly
+- Avoid triggering toast inside render loops
 
 ---
 
 ## ✅ General Guidelines
 
-* Prefer shared components over custom UI
-* Do NOT modify component styles directly in pages
-* Extend components only when required
-* Keep usage consistent across roles (Customer, Theater Manager, Staff and Super Admin)
+- Prefer shared components over custom UI
+- Do NOT modify component styles directly in pages
+- Extend components only when required
+- Keep usage consistent across roles (Customer, Theater Manager, Staff and Super Admin)
