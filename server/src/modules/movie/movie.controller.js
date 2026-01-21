@@ -6,7 +6,6 @@ export const addMovie = async (req, res) => {
     console.log("===== DEBUG START =====");
     console.log("req.body:", req.body); // all text fields from FormData
     console.log("req.file:", req.file); // file info from Multer
-    // console.log("===== DEBUG END =====");
     const movieData = { ...req.body };
 
     // Handle file upload
@@ -16,8 +15,12 @@ export const addMovie = async (req, res) => {
       movieData.image = req.body.image; // fallback if frontend sends URL
     }
 
-    const movie = await movieService.addMovie(movieData);
+    // ✅ Ensure language is a single string
+    if (movieData.language && typeof movieData.language !== "string") {
+      return res.status(400).json({ success: false, error: "Language must be a string" });
+    }
 
+    const movie = await movieService.addMovie(movieData);
     res.status(201).json({ success: true, data: movie });
   } catch (err) {
     console.error("Error adding movie:", err.message);
@@ -40,9 +43,7 @@ export const getMovieDetails = async (req, res, next) => {
   try {
     const movie = await movieService.getMovieDetails(req.params.movieId);
     if (!movie) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Movie not found" });
+      return res.status(404).json({ success: false, message: "Movie not found" });
     }
     res.json({ success: true, data: movie });
   } catch (err) {
@@ -55,10 +56,12 @@ export const updateMovie = async (req, res) => {
   try {
     const movieData = { ...req.body };
 
-    // Normalize arrays
-    if (typeof movieData.language === "string") {
-      movieData.language = movieData.language.split(",").map((l) => l.trim());
+    // ✅ Keep language atomic
+    if (movieData.language && typeof movieData.language !== "string") {
+      return res.status(400).json({ success: false, error: "Language must be a string" });
     }
+
+    // Normalize genre if passed as comma-separated string
     if (typeof movieData.genre === "string") {
       movieData.genre = movieData.genre.split(",").map((g) => g.trim());
     }
@@ -81,15 +84,12 @@ export const updateMovie = async (req, res) => {
   }
 };
 
-
 // ➡️ Delete movie by ID
 export const deleteMovie = async (req, res, next) => {
   try {
     const deleted = await movieService.deleteMovie(req.params.movieId);
     if (!deleted) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Movie not found" });
+      return res.status(404).json({ success: false, message: "Movie not found" });
     }
     res.json({ success: true, message: "Movie deleted" });
   } catch (err) {

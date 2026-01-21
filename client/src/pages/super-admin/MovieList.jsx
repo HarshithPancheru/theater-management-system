@@ -1,4 +1,3 @@
-// src/pages/super-admin/MovieList.jsx
 import React, { useEffect, useState } from "react";
 import Card from "../../components/Card/Card";
 import Button from "../../components/Button/Button";
@@ -21,11 +20,11 @@ const MovieList = () => {
     title: "",
     description: "",
     duration: "",
-    language: [],
+    language: "",   // ✅ single string
     genre: [],
     releaseDate: "",
     status: "UPCOMING",
-    poster: null, // 👈 store file object here
+    poster: null,
   });
 
   const fetchMovies = async () => {
@@ -63,8 +62,8 @@ const MovieList = () => {
       form.append("title", formData.title);
       form.append("description", formData.description);
       form.append("duration", formData.duration);
-      form.append("language", formData.language);
-      form.append("genre", formData.genre);
+      form.append("language", formData.language);   // ✅ string
+      form.append("genre", formData.genre);         // array still supported
       form.append("releaseDate", formData.releaseDate);
       form.append("status", formData.status);
 
@@ -75,7 +74,7 @@ const MovieList = () => {
           {
             method: "PUT",
             body: form,
-          },
+          }
         );
       } else {
         res = await fetch("http://localhost:5000/api/movies", {
@@ -89,7 +88,7 @@ const MovieList = () => {
         showSuccess(
           editingMovie
             ? "Movie updated successfully"
-            : "Movie created successfully",
+            : "Movie created successfully"
         );
         setModalOpen(false);
         fetchMovies();
@@ -132,7 +131,7 @@ const MovieList = () => {
               title: "",
               description: "",
               duration: "",
-              language: [],
+              language: "",   // ✅ string
               genre: [],
               releaseDate: "",
               status: "UPCOMING",
@@ -150,7 +149,7 @@ const MovieList = () => {
                 title: "",
                 description: "",
                 duration: "",
-                language: [],
+                language: "",   // ✅ string
                 genre: [],
                 releaseDate: "",
                 status: "UPCOMING",
@@ -181,7 +180,7 @@ const MovieList = () => {
                   <strong>Duration:</strong> {movie.duration} min
                 </p>
                 <p>
-                  <strong>Language:</strong> {movie.language?.join(", ")}
+                  <strong>Language:</strong> {movie.language}   {/* ✅ string */}
                 </p>
                 <p>
                   <strong>Genre:</strong> {movie.genre?.join(", ")}
@@ -201,11 +200,11 @@ const MovieList = () => {
                         title: movie.title,
                         description: movie.description,
                         duration: movie.duration,
-                        language: movie.language,
-                        genre: movie.genre,
+                        language: movie.language || "",   // ✅ string
+                        genre: movie.genre || [],
                         releaseDate: movie.releaseDate?.split("T")[0] || "",
                         status: movie.status,
-                        poster: null, // file not preloaded
+                        poster: null,
                       });
                       setModalOpen(true);
                     }}
@@ -254,25 +253,20 @@ const MovieList = () => {
           />
         </div>
         <div className="form-group">
-          <label>Language (comma separated)</label>
+          <label>Language</label>
           <Input
-            value={formData.language?.join(", ") || ""}
-            onChange={(val) =>
-              handleChange(
-                "language",
-                val.split(",").map((lang) => lang.trim()),
-              )
-            }
+            value={formData.language}
+            onChange={(val) => handleChange("language", val.trim())}
           />
         </div>
         <div className="form-group">
           <label>Genre (comma separated)</label>
           <Input
-            value={formData.genre?.join(", ") || ""}
+            value={formData.genre?.join(", ")}
             onChange={(val) =>
               handleChange(
                 "genre",
-                val.split(",").map((g) => g.trim()),
+                val.split(",").map((g) => g.trim())
               )
             }
           />
@@ -300,12 +294,19 @@ const MovieList = () => {
         </div>
         <div className="form-group">
           <label>Poster</label>
-          <input type="file" name="poster" accept="image/*" onChange={handleFileUpload} />
+          <input
+            type="file"
+            name="poster"
+            accept="image/*"
+            onChange={handleFileUpload}
+          />
         </div>
-        <Button onClick={handleSave}>{editingMovie ? "Update" : "Save"}</Button>
+        <Button onClick={handleSave}>
+          {editingMovie ? "Update" : "Save"}
+        </Button>
       </Modal>
 
-      <style jsx>{`
+            <style jsx>{`
         .card-grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
