@@ -20,17 +20,112 @@
 
 .search-bar-plus-icon {
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 25px;
 }
 
 /* Profile */
 .profile-icon {
-  width: 34px;
-  height: 34px;
+  width: 35px;
+  height: 35px;
   background-color: var(--color-primary);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
+  color: white;
+}
+
+/* Notification */
+.notification-wrapper {
+  position: relative;
+}
+
+.notification-icon {
+  position: relative;
+  cursor: pointer;
+  color: var(--text-primary);
+  top: 5px;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: var(--status-error);
+  color: white;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+  padding: 2px 6px;
+  border-radius: var(--radius-round);
+}
+
+/* Dropdown common */
+.notification-dropdown,
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 260px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  z-index: 50;
+}
+
+/* Notification dropdown */
+.dropdown-header {
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-semibold);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-secondary);
+}
+
+.notification-item {
+  padding: 10px 12px;
+  font-size: var(--font-size-normal);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.notification-item:hover {
+  background: var(--bg-soft);
+}
+
+.dropdown-footer {
+  padding: 10px 12px;
+  font-size: var(--font-size-secondary);
+  text-align: center;
+  color: var(--color-primary);
+  cursor: pointer;
+  border-top: 1px solid var(--border-light);
+}
+
+/* Profile dropdown */
+.profile-wrapper {
+  position: relative;
+}
+
+.profile-dropdown {
+  width: 160px;
+}
+
+.profile-item {
+  padding: 10px 12px;
+  font-size: var(--font-size-normal);
+  cursor: pointer;
+}
+
+.profile-item:hover {
+  background: var(--bg-soft);
+}
+
+.profile-item.logout {
+  color: var(--status-error);
 }
