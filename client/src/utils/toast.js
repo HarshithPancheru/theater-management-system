@@ -15,3 +15,5 @@ export const showInfo = (message) => {
 export const showLoading = (message) => {
   toast.loading(message);
 };
+
+export {toast};
