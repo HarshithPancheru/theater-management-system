@@ -305,7 +305,56 @@ return (
 
 ---
 
-## 9️⃣ Card Component
+## 9️⃣ SortDropdown Component
+
+### Purpose
+
+Used to apply sorting through a dropdown panel triggered by a Sort button.
+Allows users to select one or more fields and choose ascending or descending order.
+Sorting is applied only when Apply is clicked.
+
+By default, no sorting is applied and backend data order is shown.
+
+### Props
+
+- `align` (optional): `left | right | center` (default: `right`)
+- `options`: Array of sortable fields
+  - Format: `{ key, label }`
+- `onApply`: Callback fired when Apply or Reset is clicked
+  - Receives `null` when sorting is reset
+  - Receives an object when sorting is applied
+
+This is a controlled component. All filter state is managed by the parent.
+
+### Example Usage
+
+```jsx
+import SortDropdown from "../../components/SortDropdown/SortDropdown";
+
+const sortOptions = [
+  { key: "name", label: "Name" },
+  { key: "price", label: "Price" },
+];
+
+const handleSortApply = (sortConfig) => {
+  console.log(sortConfig);
+  // null → no sorting
+  // { price: "asc", name: "desc" }
+};
+
+<SortDropdown options={sortOptions} onApply={handleSortApply} />;
+```
+
+### Notes
+
+- Multiple sort fields can be selected
+- Each selected field defaults to ascending order
+- Reset clears sorting and closes the dropdown
+- Sorting logic and API calls stay in the page component
+
+---
+
+## 1️⃣0️⃣ Card Component
 
 ### Purpose
 
@@ -387,7 +436,7 @@ import Card from "../../components/Card/Card";
 
 ---
 
-## 1️⃣0️⃣ Toast Notifications
+## 1️⃣1️⃣ Toast Notifications
 
 ### Purpose
 
