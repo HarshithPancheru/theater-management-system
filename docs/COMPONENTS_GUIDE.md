@@ -436,7 +436,48 @@ import Card from "../../components/Card/Card";
 
 ---
 
-## 1️⃣1️⃣ Toast Notifications
+## 1️⃣1️⃣ SearchBar Component
+
+### Purpose
+
+Used to capture search input for filtering lists and tables.
+The SearchBar is a controlled, reusable UI component and does not handle any search or API logic internally.
+
+It supports different sizes and includes a built-in clear (×) button.
+
+### Props
+
+- `value`: Current search value (controlled)
+- `onChange`: Callback fired when search text changes
+- `placeholder` (optional): Placeholder text (default: "`Search...`")
+- `size` (optional): `sm | md | lg` (default: `md`)
+- `disabled` (optional): Disables input and actions
+
+### Example Usage
+
+```jsx
+import SearchBar from "../../components/SearchBar/SearchBar";
+
+const [search, setSearch] = useState("");
+
+<SearchBar
+  value={search}
+  onChange={setSearch}
+  placeholder="Search theaters..."
+  size="md"
+/>;
+```
+
+### Notes
+
+- Clear (×) button appears only when input has value
+- Clearing the input calls `onChange("")`
+- Component is layout-agnostic; parent controls width and placement
+- Search logic, debouncing, and API calls must be handled in the page component
+
+---
+
+## 1️⃣2️⃣ Toast Notifications
 
 ### Purpose
 

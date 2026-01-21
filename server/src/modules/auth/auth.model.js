@@ -10,7 +10,6 @@ const userSchema = new mongoose.Schema(
 
     profilePhoto: { type: String },
 
-
     role: {
       type: String,
       enum: ["SUPER_ADMIN", "THEATER_MANAGER", "STAFF", "USER"],
@@ -21,6 +20,15 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["ACTIVE", "BLOCKED"],
       default: "ACTIVE"
+    },
+
+    // 🔑 Add this field to link managers/staff to a theater
+    theaterId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Theater",
+      required: function () {
+        return this.role === "THEATER_MANAGER" || this.role === "STAFF";
+      }
     }
   },
   { timestamps: true }
