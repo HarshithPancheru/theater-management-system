@@ -81,12 +81,6 @@ const TheaterList = () => {
     setOpen(true);
   };
 
-  /* ---------------- CHANGE ---------------- */
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
   /* ---------------- SUBMIT ---------------- */
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -142,32 +136,64 @@ const TheaterList = () => {
         title={isEdit ? "Update Theater" : "Add Theater"}
       >
         <form onSubmit={handleSubmit}>
-          <Input name="name" label="Name" value={formData.name} onChange={handleChange} required />
-          <Input name="location" label="Location" value={formData.location} onChange={handleChange} required />
-          <Input name="amenities" label="Amenities" value={formData.amenities} onChange={handleChange} />
-          <Input name="contactNumber" label="Contact Number" value={formData.contactNumber} onChange={handleChange} />
-          <Input type="time" name="openingTime" label="Opening Time" value={formData.openingTime} onChange={handleChange} />
-          <Input type="time" name="closingTime" label="Closing Time" value={formData.closingTime} onChange={handleChange} />
+          <Input
+            label="Name"
+            value={formData.name}
+            onChange={(val) => setFormData(p => ({ ...p, name: val }))}
+            required
+          />
 
+          <Input
+            label="Location"
+            value={formData.location}
+            onChange={(val) => setFormData(p => ({ ...p, location: val }))}
+            required
+          />
+
+          <Input
+            label="Amenities"
+            value={formData.amenities}
+            onChange={(val) => setFormData(p => ({ ...p, amenities: val }))}
+          />
+
+          <Input
+            label="Contact Number"
+            value={formData.contactNumber}
+            onChange={(val) => setFormData(p => ({ ...p, contactNumber: val }))}
+          />
+
+          <Input
+            type="time"
+            label="Opening Time"
+            value={formData.openingTime}
+            onChange={(val) => setFormData(p => ({ ...p, openingTime: val }))}
+          />
+
+          <Input
+            type="time"
+            label="Closing Time"
+            value={formData.closingTime}
+            onChange={(val) => setFormData(p => ({ ...p, closingTime: val }))}
+          />
+
+          {/* STATUS */}
           <div style={{ marginTop: "12px" }}>
             <label>Status</label>
             <div>
               <label>
                 <input
                   type="radio"
-                  name="status"
                   value="ACTIVE"
                   checked={formData.status === "ACTIVE"}
-                  onChange={handleChange}
+                  onChange={() => setFormData(p => ({ ...p, status: "ACTIVE" }))}
                 /> Active
               </label>
               <label style={{ marginLeft: "16px" }}>
                 <input
                   type="radio"
-                  name="status"
                   value="INACTIVE"
                   checked={formData.status === "INACTIVE"}
-                  onChange={handleChange}
+                  onChange={() => setFormData(p => ({ ...p, status: "INACTIVE" }))}
                 /> Inactive
               </label>
             </div>
