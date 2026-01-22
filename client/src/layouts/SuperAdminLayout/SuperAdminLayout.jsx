@@ -3,18 +3,27 @@ import Header from "../../components/Header/Header";
 import Sidebar from "../../components/SideBar/SideBar";
 import { superAdminMenu } from "../../config/SideBarMenu";
 import { Outlet } from "react-router-dom";
+import { useState } from "react";
 
 const SuperAdminLayout = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
     <div className="mainContainer">
+      {/* Mobile only */}
+      {isSidebarOpen && (
+        <div
+          className="sidebar-overlay"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
       {/* left */}
-      <div className="left">
-        <Sidebar menu={superAdminMenu} />
+      <div className={`left ${isSidebarOpen ? "open" : ""}`}>
+        <Sidebar menu={superAdminMenu} onItemClick={() => setIsSidebarOpen(false)}/>
       </div>
 
       {/* right */}
       <div className="right">
-        <Header />
+        <Header onMenuClick={() => setIsSidebarOpen(true)}/>
 
         {/* main content goes here */}
         <div className="content">

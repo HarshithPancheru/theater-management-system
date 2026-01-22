@@ -3,23 +3,32 @@ import Header from "../../components/Header/Header";
 import Sidebar from "../../components/SideBar/SideBar";
 import { staffMenu } from "../../config/SideBarMenu";
 import { Outlet } from "react-router-dom";
+import { useState } from "react";
 
 const StaffLayout = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
     <div className="mainContainer">
+      {/* Mobile only */}
+      {isSidebarOpen && (
+        <div
+          className="sidebar-overlay"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
       {/* left */}
-      <div className="left">
-        <Sidebar menu={staffMenu} />
+      <div className={`left ${isSidebarOpen ? "open" : ""}`}>
+        <Sidebar menu={staffMenu} onItemClick={() => setIsSidebarOpen(false)} />
       </div>
 
       {/* right */}
       <div className="right">
-        <Header />
+        <Header onMenuClick={() => setIsSidebarOpen(true)} />
 
         {/* main content goes here */}
         <div className="content">
           {/* <Outlet /> will come here */}
-          <Outlet/>
+          <Outlet />
         </div>
       </div>
     </div>
