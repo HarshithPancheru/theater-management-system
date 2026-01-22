@@ -1,7 +1,8 @@
 import api from "./axios";
 
+
 export const getMyBookings = async () => {
-    const res = await api.get("/booking/my");
+    const res = await api.get("/bookings/my");
     if (!res || !res.data || !res.data.success) {
         throw new Error("API failed");
     }
@@ -11,7 +12,7 @@ export const getMyBookings = async () => {
 
 
 export const getBookingDetails = async (id) => {
-    const res = await api.get(`/booking/${id}`);
+    const res = await api.get(`/bookings/${id}`);
 
     if (!res || !res.data || !res.data.success) {
         throw new Error("API failed");
@@ -22,7 +23,7 @@ export const getBookingDetails = async (id) => {
 
 
 export const getAllBookings = (params) =>
-  api.get("/booking/", { params }).then(res => res.data);
+  api.get("bookings/", { params }).then(res => res.data);
 
 export const cancelBooking = (id) =>
   api.patch(`/bookings/${id}/cancel`);
