@@ -22,18 +22,15 @@ const SortDropdown = ({ align = "right", options = [], onApply }) => {
     setSortState((prev) => {
       if (prev[key]) {
         // remove field
-        const updated = { ...prev };
-        delete updated[key];
-        return updated;
+        return {};
       }
       // add field with default asc
-      return { ...prev, [key]: "asc" };
+      return { [key]: "asc" };
     });
   };
 
   const toggleDirection = (key) => {
     setSortState((prev) => ({
-      ...prev,
       [key]: prev[key] === "asc" ? "desc" : "asc",
     }));
   };
@@ -55,7 +52,12 @@ const SortDropdown = ({ align = "right", options = [], onApply }) => {
       {/* Sort Button */}
       <Button size="sm" onClick={() => setOpen((p) => !p)}>
         Sort
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+        >
           <path
             fill="currentColor"
             d="M4 18q-.425 0-.712-.288T3 17t.288-.712T4 16h4q.425 0 .713.288T9 17t-.288.713T8 18zm0-5q-.425 0-.712-.288T3 12t.288-.712T4 11h10q.425 0 .713.288T15 12t-.288.713T14 13zm0-5q-.425 0-.712-.288T3 7t.288-.712T4 6h16q.425 0 .713.288T21 7t-.288.713T20 8z"
@@ -71,7 +73,10 @@ const SortDropdown = ({ align = "right", options = [], onApply }) => {
             const active = !!sortState[opt.key];
 
             return (
-              <div key={opt.key} className={`sort-row ${active ? "active" : ""}`}>
+              <div
+                key={opt.key}
+                className={`sort-row ${active ? "active" : ""}`}
+              >
                 <div
                   className="sort-label"
                   onClick={() => toggleField(opt.key)}
@@ -87,7 +92,12 @@ const SortDropdown = ({ align = "right", options = [], onApply }) => {
                   >
                     {sortState[opt.key] === "asc" ? (
                       // ASC
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                      >
                         <path
                           fill="currentColor"
                           d="M12.75 20a.75.75 0 0 1-1.5 0v-9.25H6a.75.75 0 0 1-.53-1.28l6-6a.75.75 0 0 1 1.06 0l6 6a.75.75 0 0 1-.53 1.28h-5.25z"
@@ -95,7 +105,12 @@ const SortDropdown = ({ align = "right", options = [], onApply }) => {
                       </svg>
                     ) : (
                       // DESC
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                      >
                         <path
                           fill="currentColor"
                           d="M12.75 4a.75.75 0 0 0-1.5 0v9.25H6a.75.75 0 0 0-.53 1.28l6 6a.75.75 0 0 0 1.06 0l6-6a.75.75 0 0 0-.53-1.28h-5.25z"
