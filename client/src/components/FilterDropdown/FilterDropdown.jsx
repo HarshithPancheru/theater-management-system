@@ -3,10 +3,8 @@ import "./FilterDropdown.css";
 import Button from "../Button/Button";
 
 const FilterDropdown = ({
-  align="right",
-  statusOptions = [],
-  selectedStatus,
-  onStatusChange,
+  align = "right",
+  filters = [],   // 👈 array of filter configs
   onApply,
   onReset,
 }) => {
@@ -21,13 +19,13 @@ const FilterDropdown = ({
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
     <div className="filter-dropdown" ref={wrapperRef}>
       {/* Filter button */}
-
       <Button size="sm" onClick={() => setOpen((prev) => !prev)}>
         Filter
         <svg
@@ -39,7 +37,7 @@ const FilterDropdown = ({
           <path
             fill="none"
             stroke="white"
-            stroke-width="2"
+            strokeWidth="2"
             d="M18 4H6c-1.105 0-2.026.91-1.753 1.98a8.02 8.02 0 0 0 4.298 5.238c.823.394 1.455 1.168 1.455 2.08v6.084a1 1 0 0 0 1.447.894l2-1a1 1 0 0 0 .553-.894v-5.084c0-.912.632-1.686 1.454-2.08a8.02 8.02 0 0 0 4.3-5.238C20.025 4.91 19.103 4 18 4z"
           />
         </svg>
@@ -47,34 +45,42 @@ const FilterDropdown = ({
 
       {/* Dropdown panel */}
       {open && (
-        <div className={`filter-dropdown__panel filter-dropdown__panel--${align}`}>
+        <div
+          className={`filter-dropdown__panel filter-dropdown__panel--${align}`}
+        >
           <div className="filter-dropdown__header">Filter By</div>
 
-          <div className="filter-dropdown__item">
-            <select
-              value={selectedStatus}
-              onChange={(e) => onStatusChange(e.target.value)}
-            >
-              <option value="">All</option>
-              {statusOptions.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-          </div>
+          {/* Dynamic filters */}
+          {filters.map((filter) => (
+            <div className="filter-dropdown__item" key={filter.key}>
+              <label>{filter.label}</label>
+              <select
+                value={filter.value}
+                onChange={(e) => filter.onChange(e.target.value)}
+              >
+                <option value="">All</option>
+                {filter.options.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ))}
 
+          {/* Actions */}
           <div className="filter-dropdown__actions">
             <Button
               size="sm"
               variant="danger"
               onClick={() => {
                 setOpen(false);
-                onReset()
+                onReset();
               }}
             >
               Reset
             </Button>
+
             <Button
               size="sm"
               onClick={() => {
