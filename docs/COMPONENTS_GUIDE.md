@@ -250,47 +250,88 @@ const data = [
 
 ### Purpose
 
-Used to apply filters through a dropdown panel triggered by a Filter button.
-Commonly used in list and table pages (Movies, Bookings, Users, etc.).
+Used to apply one or more filters through a dropdown panel triggered by a Filter button.
+
+The component is fully `dynamic and config-driven`:
+
+- Labels are dynamic
+- Options are dynamic
+- Any number of filters can be rendered
+
+Commonly used in list and table pages (Movies, Shows, Bookings, Users, etc.).
 
 ### Props
 
-- `align` : `left | right | center` (default:`right`)
-- `statusOptions`: Array of { label, value } options
-- `selectedStatus`: Currently selected filter value
-- `onStatusChange`: Callback when dropdown value changes
+- `align`: `left | right | center` (default: `right`)
+- `filters`: Array of filter configuration objects
 - `onApply`: Callback when Apply is clicked
 - `onReset`: Callback when Reset is clicked
 
 This is a controlled component. All filter state is managed by the parent.
+
+### Filter Config Format
+
+Each filter must follow this structure:
+
+```js
+{
+  key: string,                 // unique identifier
+  label: string,               // label shown in UI
+  value: string,               // selected value
+  options: [{ label, value }], // dropdown options
+  onChange: function           // change handler
+}
+
+```
 
 ### Example Usage
 
 ```jsx
 import FilterDropdown from "../../components/FilterDropdown/FilterDropdown";
 
-const [status, setStatus] = useState("");
+const [filters, setFilters] = useState({
+  status: "",
+  isShowOver: "",
+});
 
-const statusOptions = [
-  { label: "Pending", value: "pending" },
-  { label: "Confirmed", value: "confirmed" },
-  { label: "Cancelled", value: "cancelled" },
+const filterConfig = [
+  {
+    key: "status",
+    label: "Status",
+    value: filters.status,
+    options: [
+      { label: "Confirmed", value: "confirmed" },
+      { label: "Cancelled", value: "cancelled" },
+    ],
+    onChange: (value) => setFilters((prev) => ({ ...prev, status: value })),
+  },
+  {
+    key: "isShowOver",
+    label: "Is Show Over",
+    value: filters.isShowOver,
+    options: [
+      { label: "True", value: "true" },
+      { label: "False", value: "false" },
+    ],
+    onChange: (value) => setFilters((prev) => ({ ...prev, isShowOver: value })),
+  },
 ];
 
 const handleApply = () => {
-  console.log("Apply filter:", status);
+  console.log("Apply filters:", filters);
 };
 
 const handleReset = () => {
-  setStatus("");
+  setFilters({
+    status: "",
+    isShowOver: "",
+  });
 };
 
 return (
   <FilterDropdown
-    align="left"
-    statusOptions={statusOptions}
-    selectedStatus={status}
-    onStatusChange={setStatus}
+    align="right"
+    filters={filterConfig}
     onApply={handleApply}
     onReset={handleReset}
   />
@@ -299,8 +340,10 @@ return (
 
 ### Notes
 
-- Dropdown opens below the Filter button
-- Reset clears filters and closes dropdown
+- Any number of filters can be passed using the filters array
+- Filters are applied only when Apply is clicked
+- Reset clears all filters and closes the dropdown
+- Empty filter values should be ignored by the backend
 - API calls and filtering logic stay in the page component
 
 ---
