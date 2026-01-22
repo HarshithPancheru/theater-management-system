@@ -1,6 +1,6 @@
 const roleMiddleware = (allowedRoles = []) => {
   return (req, res, next) => {
-    if (!allowedRoles.includes(req.user.role)) {
+    if (!req.user || !allowedRoles.includes(req.user.role)) {
       return res.status(403).json({
         success: false,
         message: "Access denied"
@@ -15,10 +15,28 @@ export default roleMiddleware;
 
 
 /*
-router.post(
-  "/",
+router.get(
+  "/admin/bookings",
   authMiddleware,
   roleMiddleware(["SUPER_ADMIN"]),
-  controllerFunction
+  controller.getAllBookings
 );
+
+
+router.post(
+  "/shows",
+  authMiddleware,
+  roleMiddleware(["THEATER_MANAGER", "STAFF"]),
+  controller.createShow
+);
+
+
+
+
+router.get(
+  "/profile",
+  authMiddleware,
+  controller.getProfile
+);
+
 */
