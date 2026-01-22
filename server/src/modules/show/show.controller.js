@@ -5,11 +5,7 @@ export const createShow = async (req, res, next) => {
   try {
     const showData = req.body;
     const show = await showService.createShow(showData);
-
-    res.status(201).json({
-      success: true,
-      data: show
-    });
+    res.status(201).json({ success: true, data: show });
   } catch (err) {
     next(err);
   }
@@ -22,22 +18,29 @@ export const getShowsByMovie = async (req, res, next) => {
     const shows = await showService.getShowsByMovie(movieId);
 
     if (!shows || shows.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "No shows found for this movie"
-      });
+      return res.status(404).json({ success: false, message: "No shows found for this movie" });
     }
 
-    res.json({
-      success: true,
-      data: shows
-    });
+    res.json({ success: true, data: shows });
   } catch (err) {
     next(err);
   }
 };
 
-//Update the show
+// ➡️ Get show by ID
+export const getShowById = async (req, res, next) => {
+  try {
+    const show = await showService.getShowById(req.params.showId);
+    if (!show) {
+      return res.status(404).json({ success: false, message: "Show not found" });
+    }
+    res.json({ success: true, data: show });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// ➡️ Update show
 export const updateShow = async (req, res, next) => {
   try {
     const show = await showService.updateShow(req.params.showId, req.body);
@@ -50,7 +53,7 @@ export const updateShow = async (req, res, next) => {
   }
 };
 
-//Delete the show 
+// ➡️ Delete show
 export const deleteShow = async (req, res, next) => {
   try {
     const deleted = await showService.deleteShow(req.params.showId);
@@ -61,12 +64,4 @@ export const deleteShow = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-};
-
-export const getShowById = async (req, res, next) => {
-  const show = await showService.getShowById(req.params.showId);
-  if (!show) {
-    return res.status(404).json({ success: false, message: "Show not found" });
-  }
-  res.json({ success: true, data: show });
 };

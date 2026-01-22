@@ -7,17 +7,14 @@ const showSchema = new mongoose.Schema(
       ref: "Movie",
       required: true
     },
-
     screenId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Screen",
-      required: true
+      reqletired: true
     },
-
     date: { type: Date, required: true },
-
     startTime: { type: String, required: true }, // HH:mm
-
+    endTime: { type: String, required: true },   // HH:mm
     priceMultiplier: { type: Number, default: 1 }
   },
   { timestamps: true }

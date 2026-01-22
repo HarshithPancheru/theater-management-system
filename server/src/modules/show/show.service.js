@@ -13,24 +13,24 @@ export const getShowsByMovie = async (movieId) => {
     .populate("movieId");
 };
 
-// ➡️ Get show by showId (optional, if you want single show fetch)
+// ➡️ Get show by showId
 export const getShowById = async (showId) => {
   return await Show.findById(showId)
     .populate("screenId")
     .populate("movieId");
 };
 
-// ➡️ Update show by showId
+// ➡️ Update show
 export const updateShow = async (showId, updateData) => {
   return await Show.findByIdAndUpdate(showId, updateData, {
-    new: true, // return updated doc
-    runValidators: true // enforce schema validation
+    new: true,
+    runValidators: true
   })
     .populate("screenId")
     .populate("movieId");
 };
 
-// ➡️ Delete show by showId
+// ➡️ Delete show
 export const deleteShow = async (showId) => {
   return await Show.findByIdAndDelete(showId);
 };
