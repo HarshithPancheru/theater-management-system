@@ -41,6 +41,18 @@ const runSeed = async () => {
 
     console.log("Cleared existing data");
 
+    // ----- 2) THEATER -----
+    const theater = await Theater.create({
+      name: "PVR Orion Mall",
+      location: "Bangalore",
+      amenities: ["Parking", "Food Court", "Recliner Seats"],
+      contactNumber: "9999999999",
+      openingTime: "09:00",
+      closingTime: "23:00",
+      status: "ACTIVE"
+    });
+
+
     // ----- 1) USERS -----
     const users = await User.create([
       {
@@ -55,7 +67,8 @@ const runSeed = async () => {
         email: "manager@pvr.com",
         passwordHash: "hashed_dummy_123",
         role: "THEATER_MANAGER",
-        status: "ACTIVE"
+        status: "ACTIVE",
+        theaterId: theater._id,
       },
       {
         name: "Customer One",
@@ -68,16 +81,7 @@ const runSeed = async () => {
 
     const customer = users[2];
 
-    // ----- 2) THEATER -----
-    const theater = await Theater.create({
-      name: "PVR Orion Mall",
-      location: "Bangalore",
-      amenities: ["Parking", "Food Court", "Recliner Seats"],
-      contactNumber: "9999999999",
-      openingTime: "09:00",
-      closingTime: "23:00",
-      status: "ACTIVE"
-    });
+    
 
     // ----- 3) SCREEN -----
     const screen = await Screen.create({
