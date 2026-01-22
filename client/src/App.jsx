@@ -13,7 +13,7 @@ function App() {
           top: 72, // header height + breathing space
         }}
         toastOptions={{
-          duration: 4000,
+          duration: 3000,
           style: {
             background: "var(--bg-card)",
             color: "var(--text-primary)",

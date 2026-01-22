@@ -5,12 +5,12 @@
 }
 
 .left {
-  width: 240px;     
+  width: 240px;
   flex-shrink: 0;
 }
 
 .right {
-  flex: 1;          
+  flex: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -18,7 +18,36 @@
 
 .content {
   flex: 1;
-  overflow-y: auto; 
+  overflow-y: auto;
   padding: 24px;
   background-color: var(--bg-soft);
+}
+
+/* Overlay */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 999;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .left {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    height: 100vh;
+    width: 240px;
+    z-index: 1000;
+    transition: left 0.3s ease;
+  }
+
+  .left.open {
+    left: 0;
+  }
+
+  .right {
+    width: 100%;
+  }
 }

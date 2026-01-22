@@ -2,7 +2,7 @@ import "./SideBar.css";
 import { icons } from "../../config/SideBarIcon";
 import { NavLink } from "react-router-dom";
 
-const Sidebar = ({ menu }) => {
+const Sidebar = ({ menu, onItemClick }) => {
   return (
     <>
       <div className="sidebar-container">
@@ -34,6 +34,7 @@ const Sidebar = ({ menu }) => {
               className={({ isActive }) =>
                 `menu-dashboard ${isActive ? "active" : ""}`
               }
+              onClick={onItemClick}
             >
               {icons[item.icon]}
               <span className="sidebar-text">{item.label}</span>
