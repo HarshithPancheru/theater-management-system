@@ -1,8 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import "./Header.css";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Header = () => {
+  // Used to navigate and find location
+  const location = useLocation();
+  const navigate = useNavigate();
 
   // Data fetched from backend
   const userName = "Melwin";
@@ -35,9 +39,16 @@ const Header = () => {
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  // route to navigation
+  const handleViewAll = () => {
+    const basePath = location.pathname.split("/")[1];
+    setOpenNotif(false);
+    setOpenProfile(false);
+    navigate(`/${basePath}/notifications`);
+  };
 
   return (
     <header className="app-header">
@@ -59,9 +70,7 @@ const Header = () => {
           >
             <Icon icon="mdi:bell-outline" width="27" />
             {notifications.length > 0 && (
-              <span className="notification-badge">
-                {notifications.length}
-              </span>
+              <span className="notification-badge">{notifications.length}</span>
             )}
           </div>
 
@@ -75,7 +84,9 @@ const Header = () => {
                 </div>
               ))}
 
-              <div className="dropdown-footer">View all</div>
+              <div onClick={handleViewAll} className="dropdown-footer">
+                View all
+              </div>
             </div>
           )}
         </div>
