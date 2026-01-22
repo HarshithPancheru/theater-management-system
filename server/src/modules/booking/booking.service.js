@@ -100,7 +100,7 @@ export const createBooking = async (
 /* Get bookings for logged-in user */
 export const getMyBookings = async (userId) => {
   const bookings = await Booking.find({ userId }, { _id: 1, showId: 1 })
-  .select("status")
+    .select("status")
     .sort({ createdAt: -1 })
     .populate({
       path: "showId",
@@ -122,7 +122,7 @@ export const getMyBookings = async (userId) => {
     theaterName: b.showId.screenId.theaterId.name,
     location: b.showId.screenId.theaterId.location,
     screenType: b.showId.screenId.type,
-    status:b.status
+    status: b.status
   }));
 
 };
@@ -131,7 +131,7 @@ export const getMyBookings = async (userId) => {
 /* Get booking details */
 export const getBookingDetails = async (bookingId, userId) => {
   const booking = await Booking.findOne({ _id: bookingId, userId })
-  .select("totalAmount paymentMethod status")
+    .select("totalAmount paymentMethod status")
     .populate([
       {
         path: "seatIds",
@@ -162,23 +162,23 @@ export const getBookingDetails = async (bookingId, userId) => {
   }
 
   return {
-    bookingId:booking._id,
-    movieId:booking.showId.movieId._id,
-    title:booking.showId.movieId.title,
-    duration:booking.showId.movieId.duration,
-    language:booking.showId.movieId.language,
-    theater:booking.showId.screenId.theaterId.name,
-    location:booking.showId.screenId.theaterId.location,
-    amenities:booking.showId.screenId.theaterId.amenities,
-    contactNumber:booking.showId.screenId.theaterId.contactNumber,
-    screen:booking.showId.screenId.name,
-    screenType:booking.showId.screenId.type,
-    date:booking.showId.date,
-    time:booking.showId.startTime,
-    seats: booking.seatIds.map((seat)=>`${seat.seatLabel}[${seat.category}]`),
-    amount:booking.totalAmount,
-    paymentMethod:booking.paymentMethod,
-    status:booking.status
+    bookingId: booking._id,
+    movieId: booking.showId.movieId._id,
+    title: booking.showId.movieId.title,
+    duration: booking.showId.movieId.duration,
+    language: booking.showId.movieId.language,
+    theater: booking.showId.screenId.theaterId.name,
+    location: booking.showId.screenId.theaterId.location,
+    amenities: booking.showId.screenId.theaterId.amenities,
+    contactNumber: booking.showId.screenId.theaterId.contactNumber,
+    screen: booking.showId.screenId.name,
+    screenType: booking.showId.screenId.type,
+    date: booking.showId.date,
+    time: booking.showId.startTime,
+    seats: booking.seatIds.map((seat) => `${seat.seatLabel}[${seat.category}]`),
+    amount: booking.totalAmount,
+    paymentMethod: booking.paymentMethod,
+    status: booking.status
   };
 };
 
@@ -210,4 +210,204 @@ export const cancelBooking = async (bookingId, userId) => {
   );
 
   return booking;
+};
+
+export const getAllBookings = async ({
+  page = 1,
+  limit = 20,
+  search,
+  status,
+  sort,
+  isShowOver
+}) => {
+  const pipeline = [
+    /* ================= BOOKINGS → USERS ================= */
+    {
+      $lookup: {
+        from: "users",
+        localField: "userId",
+        foreignField: "_id",
+        as: "user"
+      }
+    },
+    { $unwind: "$user" },
+
+    /* ================= BOOKINGS → SHOWS ================= */
+    {
+      $lookup: {
+        from: "shows",
+        localField: "showId",
+        foreignField: "_id",
+        as: "show"
+      }
+    },
+    { $unwind: "$show" },
+
+    /* ================= SHOWS → MOVIES ================= */
+    {
+      $lookup: {
+        from: "movies",
+        localField: "show.movieId",
+        foreignField: "_id",
+        as: "movie"
+      }
+    },
+    { $unwind: "$movie" },
+
+    /* ================= SHOWS → SCREENS ================= */
+    {
+      $lookup: {
+        from: "screens",
+        localField: "show.screenId",
+        foreignField: "_id",
+        as: "screen"
+      }
+    },
+    { $unwind: "$screen" },
+
+    /* ================= SCREENS → THEATERS ================= */
+    {
+      $lookup: {
+        from: "theaters",
+        localField: "screen.theaterId",
+        foreignField: "_id",
+        as: "theater"
+      }
+    },
+    { $unwind: "$theater" }
+  ];
+
+  /* ================= SEARCH ================= */
+  if (search) {
+    pipeline.push({
+      $match: {
+        $or: [
+          { bookingId: search },
+          { "user.name": { $regex: search, $options: "i" } },
+          { "user.email": { $regex: search, $options: "i" } },
+          { "movie.title": { $regex: search, $options: "i" } },
+          { "theater.name": { $regex: search, $options: "i" } }
+        ]
+      }
+    });
+  }
+
+  /* ================= STATUS FILTER ================= */
+  if (status) {
+    pipeline.push({ $match: { status } });
+  }
+
+  /* ================= FIX DATE STRING → DATE ================= */
+  pipeline.push({
+    $addFields: {
+      showDateObj: {
+        $toDate: "$show.date"   // converts ISO string → Date
+      }
+    }
+  });
+
+  /* ================= BUILD SHOW START DATETIME ================= */
+  pipeline.push({
+    $addFields: {
+      showStartDateTime: {
+        $dateFromString: {
+          dateString: {
+            $concat: [
+              { $dateToString: { format: "%Y-%m-%d", date: "$showDateObj" } },
+              "T",
+              "$show.startTime",
+              ":00"
+            ]
+          }
+        }
+      }
+    }
+  });
+
+  /* ================= BUILD SHOW END DATETIME ================= */
+  pipeline.push({
+    $addFields: {
+      showEndTime: {
+        $dateAdd: {
+          startDate: "$showStartDateTime",
+          unit: "minute",
+          amount: "$movie.duration"
+        }
+      }
+    }
+  });
+
+  /* ================= SHOW OVER FILTER ================= */
+  if (isShowOver !== undefined) {
+    pipeline.push({
+      $match: {
+        showEndTime:
+          isShowOver === "true"
+            ? { $lt: new Date() }
+            : { $gte: new Date() }
+      }
+    });
+  }
+
+  /* ================= SORT ================= */
+  const sortMap = {
+    booking_datetime_desc: { createdAt: -1 },
+    booking_datetime_asc: { createdAt: 1 },
+    show_datetime_desc: { showStartDateTime: -1 },
+    show_datetime_asc: { showStartDateTime: 1 }
+  };
+
+  pipeline.push({
+    $sort: sortMap[sort] || { createdAt: -1 }
+  });
+
+  /* ================= PAGINATION ================= */
+  pipeline.push(
+    { $skip: (page - 1) * limit },
+    { $limit: limit }
+  );
+
+  /* ================= FINAL SHAPE ================= */
+  pipeline.push({
+    $project: {
+      bookingId: 1,
+      status: 1,
+      amount: 1,
+      createdAt: 1,
+
+      username: "$user.name",
+        email: "$user.email",
+
+      movieTitle: "$movie.title",
+
+      showStartDateTime: 1,
+      showEndTime: 1,
+
+      theaterName: "$theater.name",
+      location: "$theater.location"
+    }
+  });
+
+  /* ================= EXECUTE MAIN QUERY ================= */
+  const bookings = await Booking.aggregate(pipeline);
+
+  /* ================= TOTAL COUNT (NO PAGINATION) ================= */
+  const countPipeline = pipeline.filter(
+    stage =>
+      !("$skip" in stage) &&
+      !("$limit" in stage) &&
+      !("$project" in stage)
+  );
+
+  countPipeline.push({ $count: "total" });
+
+  const totalResult = await Booking.aggregate(countPipeline);
+  return {
+    bookings,
+    meta: {
+      page,
+      limit,
+      total: totalResult[0]?.total || 0
+    }
+  };
 };

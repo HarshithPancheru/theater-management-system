@@ -54,10 +54,10 @@ export const createBooking = async (req, res, next) => {
 
 /* Get my bookings */
 export const getMyBookings = async (req, res, next) => {
-  
-  
+
+
   //TODO
-  req.user = {id : "696f72269d88fdb792d23f3f"};
+  req.user = { id: "696f72269d88fdb792d23f3f" };
 
   try {
     const bookings = await bookingService.getMyBookings(req.user.id);
@@ -76,8 +76,8 @@ export const getBookingDetails = async (req, res, next) => {
 
 
   //TODO
-  req.user = {id : "696f72269d88fdb792d23f3f"};
-  
+  req.user = { id: "696f72269d88fdb792d23f3f" };
+
 
   try {
     const booking = await bookingService.getBookingDetails(
@@ -114,4 +114,40 @@ export const cancelBooking = async (req, res, next) => {
     next(error);
   }
 };
+
+
+
+export const getAllBookings = async (req, res, next) => {
+  try {
+    const {
+      page = 1,
+      limit = 20,
+      search,
+      status,
+      sort,
+      isShowOver
+    } = req.query; 
+
+    const data = await bookingService.getAllBookings({
+      page: Number(page),
+      limit: Number(limit),
+      search,
+      status,
+      sort,
+      isShowOver
+    });
+
+    res.json({
+      success: true,
+      data: data.bookings,
+      meta: data.meta
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+
+
 
