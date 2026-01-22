@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react";
 import "./Header.css";
 import { useNavigate, useLocation } from "react-router-dom";
 
-const Header = () => {
+const Header = ({ onMenuClick }) => {
   // Used to navigate and find location
   const location = useLocation();
   const navigate = useNavigate();
@@ -54,6 +54,9 @@ const Header = () => {
     <header className="app-header">
       {/* Title */}
       <div className="title">
+        <span className="menu-btn" onClick={onMenuClick}>
+          <Icon icon="mdi:menu" width="28" />
+        </span>
         <span className="header-title">Hello {userName},</span>
       </div>
 
