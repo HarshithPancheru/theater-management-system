@@ -129,3 +129,29 @@
 .profile-item.logout {
   color: var(--status-error);
 }
+
+.menu-btn {
+  display: none;
+  cursor: pointer;
+  color: var(--text-primary);
+}
+
+/* Mobile header */
+@media (max-width: 768px) {
+  .title {
+    display: flex;
+    align-items: end;
+    gap: 12px;
+  }
+  .menu-btn {
+    display: inline-flex;
+  }
+
+  .header-title {
+    font-size: var(--font-size-card);
+  }
+
+  .app-header {
+    padding: 0 16px;
+  }
+}

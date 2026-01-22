@@ -6,6 +6,7 @@ export const superAdminMenu = [
   { label: "Bookings", icon: "booking", path: "/super-admin/bookings" },
   { label: "Users", icon: "users", path: "/super-admin/users" },
   { label: "Staff", icon: "staff", path: "/super-admin/staff" },
+  { label: "Notification", icon: "notification", path: "/super-admin/notifications" },
 ];
 
 export const theaterManagerMenu = [
