@@ -29,11 +29,22 @@ import BookingDetails from "../pages/customer/BookingDetails";
 import Profile from "../pages/customer/Profile";
 
 // Common
+import Login from "../pages/common/Login";
+import Register from "../pages/common/Register";
+import Notification from "../pages/common/Notification";
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
+
+        {/* Default redirect */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+
+        {/* Auth Route */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/singup" element={<Register />} />
+
         {/* Super Admin */}
         <Route path="/super-admin" element={<SuperAdminLayout />}>
           <Route index element={<Navigate to="theaters" replace />} />
@@ -44,6 +55,7 @@ const AppRoutes = () => {
           <Route path="bookings" element={<SuperAdminBookingList />} />
           <Route path="users" element={<SuperAdminUsersList />} />
           <Route path="staff" element={<SuperAdminStaffList />} />
+          <Route path="notifications" element={<Notification />} />
         </Route>
 
         {/* Theater Manager */}
@@ -53,6 +65,7 @@ const AppRoutes = () => {
           <Route path="movies" element={<TheaterManagerMovieList />} />
           <Route path="shows" element={<TheaterManagerShowList />} />
           <Route path="bookings" element={<TheaterManagerBookingList />} />
+          <Route path="notifications" element={<Notification />} />
         </Route>
 
         {/* Staff */}
@@ -60,6 +73,7 @@ const AppRoutes = () => {
           <Route index element={<Navigate to="shows" replace />} />
           <Route path="shows" element={<StaffShowsList />} />
           <Route path="bookings" element={<StaffBookingList />} />
+          <Route path="notifications" element={<Notification />} />
         </Route>
 
         {/* Customer */}
@@ -69,6 +83,7 @@ const AppRoutes = () => {
           <Route path="my-bookings" element={<MyBookings />} />
           <Route path="profile" element={<Profile />} />
           <Route path="my-bookings/:bookingId" element={<BookingDetails />} />
+          <Route path="notifications" element={<Notification />} />
         </Route>
       </Routes>
     </BrowserRouter>
