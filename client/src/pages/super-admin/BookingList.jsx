@@ -43,9 +43,7 @@ const BookingList = () => {
       }
 
       setHasMore(res.data.length > 0);
-    } catch(e) {
-      console.log(e);
-      
+    } catch(e) {      
       showError("Failed to load bookings");
     }
   };

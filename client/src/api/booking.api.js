@@ -1,12 +1,8 @@
-import axios from "axios";
+import api from "./axios";
 
-const api = axios.create({
-    baseURL: "http://localhost:5000/api/bookings",
-    withCredentials: false
-});
 
 export const getMyBookings = async () => {
-    const res = await api.get("/my");
+    const res = await api.get("/bookings/my");
     if (!res || !res.data || !res.data.success) {
         throw new Error("API failed");
     }
@@ -16,7 +12,7 @@ export const getMyBookings = async () => {
 
 
 export const getBookingDetails = async (id) => {
-    const res = await api.get(`/${id}`);
+    const res = await api.get(`/bookings/${id}`);
 
     if (!res || !res.data || !res.data.success) {
         throw new Error("API failed");
@@ -27,7 +23,7 @@ export const getBookingDetails = async (id) => {
 
 
 export const getAllBookings = (params) =>
-  api.get("/", { params }).then(res => res.data);
+  api.get("bookings/", { params }).then(res => res.data);
 
 export const cancelBooking = (id) =>
-  api.patch(`/admin/bookings/${id}/cancel`);
+  api.patch(`/bookings/${id}/cancel`);

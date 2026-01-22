@@ -1,4 +1,7 @@
 import express from "express";
+import authMiddleware from "../middleware/auth.middleware.js";
+import roleMiddleware from "../middleware/role.middleware.js";
+
 import {
   lockSeats,
   createBooking,
@@ -10,11 +13,13 @@ import {
 
 const router = express.Router();
 
-router.post("/lock", lockSeats);
-router.post("/", createBooking);
-router.get("/my", getMyBookings);
-router.get("/:bookingId", getBookingDetails);
-router.post("/:bookingId/cancel", cancelBooking);
-router.get("/", getAllBookings);
+router.post("/lock", authMiddleware, createBooking);
+router.post("/", authMiddleware, createBooking);
+
+router.get("/", authMiddleware, roleMiddleware(["SUPER_ADMIN"]), getAllBookings);
+router.get("/my", authMiddleware, getMyBookings);
+
+router.get("/:bookingId", authMiddleware, getBookingDetails);
+router.post("/:bookingId/cancel", authMiddleware, cancelBooking);
 
 export default router;

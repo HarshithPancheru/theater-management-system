@@ -126,7 +126,8 @@ export const getAllBookings = async (req, res, next) => {
       status,
       sort,
       isShowOver
-    } = req.query; 
+    } = req.query;
+    
 
     const data = await bookingService.getAllBookings({
       page: Number(page),
