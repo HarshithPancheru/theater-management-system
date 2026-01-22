@@ -4,6 +4,7 @@ import Sidebar from "../../components/SideBar/SideBar";
 import { superAdminMenu } from "../../config/SideBarMenu";
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const SuperAdminLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -23,7 +24,10 @@ const SuperAdminLayout = () => {
 
       {/* right */}
       <div className="right">
-        <Header onMenuClick={() => setIsSidebarOpen(true)}/>
+        <Header onMenuClick={() => {
+          setIsSidebarOpen(true)
+          toast.dismiss()
+        }}/>
 
         {/* main content goes here */}
         <div className="content">
