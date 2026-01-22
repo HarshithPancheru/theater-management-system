@@ -29,7 +29,10 @@ const userSchema = new mongoose.Schema(
       required: function () {
         return this.role === "THEATER_MANAGER" || this.role === "STAFF";
       }
-    }
+    },
+
+    resetPasswordToken: { type: String },
+    resetPasswordExpires: { type: Date }
   },
   { timestamps: true }
 );

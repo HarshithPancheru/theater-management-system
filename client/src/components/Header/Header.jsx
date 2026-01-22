@@ -9,7 +9,7 @@ const Header = ({ onMenuClick }) => {
   const navigate = useNavigate();
 
   // Data fetched from backend
-  const userName = "Melwin";
+  const userName = localStorage.getItem("CinemaHub-name");
   const userInitial = userName.charAt(0).toUpperCase();
 
   const notifications = [
@@ -107,7 +107,9 @@ const Header = ({ onMenuClick }) => {
           </div>
 
           {openProfile && (
-            <div className="profile-dropdown">
+            <div className="profile-dropdown" onClick={()=>{
+              localStorage.clear();
+              navigate("/");}}>
               <div className="profile-item logout">Logout</div>
             </div>
           )}

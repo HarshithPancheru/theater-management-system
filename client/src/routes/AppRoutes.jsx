@@ -1,4 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+import AuthGuard from "./AuthGuard";
+import RoleGuard from "./RoleGuard";
+
 // Super admin
 import SuperAdminLayout from "../layouts/SuperAdminLayout/SuperAdminLayout";
 import SuperAdminTheaterList from "../pages/super-admin/TheaterList";
@@ -32,59 +36,77 @@ import Profile from "../pages/customer/Profile";
 import Login from "../pages/common/Login";
 import Register from "../pages/common/Register";
 import Notification from "../pages/common/Notification";
+import ForgotPassword from "../pages/common/ForgotPassword";
+import ResetPassword from "../pages/common/ResetPassword";
+import Unauthorized from "../pages/common/Unauthorized";
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
 
-        {/* Default redirect */}
+        {/* Public routes */}
         <Route path="/" element={<Navigate to="/login" replace />} />
-
-        {/* Auth Route */}
         <Route path="/login" element={<Login />} />
-        <Route path="/singup" element={<Register />} />
+        <Route path="/signup" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
 
-        {/* Super Admin */}
-        <Route path="/super-admin" element={<SuperAdminLayout />}>
-          <Route index element={<Navigate to="theaters" replace />} />
-          <Route path="theaters" element={<SuperAdminTheaterList />} />
-          <Route path="screens" element={<SuperAdminScreenList />} />
-          <Route path="movies" element={<SuperAdminMovieList />} />
-          <Route path="shows" element={<SuperAdminShowsList />} />
-          <Route path="bookings" element={<SuperAdminBookingList />} />
-          <Route path="users" element={<SuperAdminUsersList />} />
-          <Route path="staff" element={<SuperAdminStaffList />} />
-          <Route path="notifications" element={<Notification />} />
+        {/* Protected routes */}
+        <Route element={<AuthGuard />}>
+
+          {/* SUPER ADMIN */}
+          <Route element={<RoleGuard allowedRoles={["SUPER_ADMIN"]} />}>
+            <Route path="/super-admin" element={<SuperAdminLayout />}>
+              <Route index element={<Navigate to="theaters" replace />} />
+              <Route path="theaters" element={<SuperAdminTheaterList />} />
+              <Route path="screens" element={<SuperAdminScreenList />} />
+              <Route path="movies" element={<SuperAdminMovieList />} />
+              <Route path="shows" element={<SuperAdminShowsList />} />
+              <Route path="bookings" element={<SuperAdminBookingList />} />
+              <Route path="users" element={<SuperAdminUsersList />} />
+              <Route path="staff" element={<SuperAdminStaffList />} />
+              <Route path="notifications" element={<Notification />} />
+            </Route>
+          </Route>
+
+          {/* THEATER MANAGER */}
+          <Route element={<RoleGuard allowedRoles={["THEATER_MANAGER"]} />}>
+            <Route path="/theater-manager" element={<TheaterManagerLayout />}>
+              <Route index element={<Navigate to="screens" replace />} />
+              <Route path="screens" element={<TheaterManagerScreenList />} />
+              <Route path="movies" element={<TheaterManagerMovieList />} />
+              <Route path="shows" element={<TheaterManagerShowList />} />
+              <Route path="bookings" element={<TheaterManagerBookingList />} />
+              <Route path="notifications" element={<Notification />} />
+            </Route>
+          </Route>
+
+          {/* STAFF */}
+          <Route element={<RoleGuard allowedRoles={["STAFF"]} />}>
+            <Route path="/staff" element={<StaffLayout />}>
+              <Route index element={<Navigate to="shows" replace />} />
+              <Route path="shows" element={<StaffShowsList />} />
+              <Route path="bookings" element={<StaffBookingList />} />
+              <Route path="notifications" element={<Notification />} />
+            </Route>
+          </Route>
+
+          {/* CUSTOMER */}
+          <Route element={<RoleGuard allowedRoles={["USER"]} />}>
+            <Route path="/customer" element={<CustomerLayout />}>
+              <Route index element={<Navigate to="movies" replace />} />
+              <Route path="movies" element={<CustomerMovieList />} />
+              <Route path="my-bookings" element={<MyBookings />} />
+              <Route path="my-bookings/:bookingId" element={<BookingDetails />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="notifications" element={<Notification />} />
+            </Route>
+          </Route>
+
         </Route>
 
-        {/* Theater Manager */}
-        <Route path="/theater-manager" element={<TheaterManagerLayout />}>
-          <Route index element={<Navigate to="screens" replace />} />
-          <Route path="screens" element={<TheaterManagerScreenList />} />
-          <Route path="movies" element={<TheaterManagerMovieList />} />
-          <Route path="shows" element={<TheaterManagerShowList />} />
-          <Route path="bookings" element={<TheaterManagerBookingList />} />
-          <Route path="notifications" element={<Notification />} />
-        </Route>
-
-        {/* Staff */}
-        <Route path="/staff" element={<StaffLayout />}>
-          <Route index element={<Navigate to="shows" replace />} />
-          <Route path="shows" element={<StaffShowsList />} />
-          <Route path="bookings" element={<StaffBookingList />} />
-          <Route path="notifications" element={<Notification />} />
-        </Route>
-
-        {/* Customer */}
-        <Route path="/customer" element={<CustomerLayout />}>
-          <Route index element={<Navigate to="movies" replace />} />
-          <Route path="movies" element={<CustomerMovieList />} />
-          <Route path="my-bookings" element={<MyBookings />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="my-bookings/:bookingId" element={<BookingDetails />} />
-          <Route path="notifications" element={<Notification />} />
-        </Route>
       </Routes>
     </BrowserRouter>
   );
