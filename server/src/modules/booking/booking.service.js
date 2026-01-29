@@ -212,13 +212,16 @@ export const cancelBooking = async (bookingId, userId) => {
   return booking;
 };
 
+import mongoose from "mongoose";
+
 export const getAllBookings = async ({
   page = 1,
   limit = 20,
   search,
   status,
   sort,
-  isShowOver
+  isShowOver,
+  theaterId
 }) => {
   const pipeline = [
     /* ================= BOOKINGS → USERS ================= */
@@ -277,6 +280,15 @@ export const getAllBookings = async ({
     { $unwind: "$theater" }
   ];
 
+  /* ================= THEATER FILTER ================= */
+  if (theaterId) {
+    pipeline.push({
+      $match: {
+        "theater._id": new mongoose.Types.ObjectId(theaterId)
+      }
+    });
+  }
+
   /* ================= SEARCH ================= */
   if (search) {
     pipeline.push({
@@ -301,7 +313,7 @@ export const getAllBookings = async ({
   pipeline.push({
     $addFields: {
       showDateObj: {
-        $toDate: "$show.date"   // converts ISO string → Date
+        $toDate: "$show.date"
       }
     }
   });
@@ -376,7 +388,7 @@ export const getAllBookings = async ({
       createdAt: 1,
 
       username: "$user.name",
-        email: "$user.email",
+      email: "$user.email",
 
       movieTitle: "$movie.title",
 
@@ -391,7 +403,7 @@ export const getAllBookings = async ({
   /* ================= EXECUTE MAIN QUERY ================= */
   const bookings = await Booking.aggregate(pipeline);
 
-  /* ================= TOTAL COUNT (NO PAGINATION) ================= */
+  /* ================= TOTAL COUNT ================= */
   const countPipeline = pipeline.filter(
     stage =>
       !("$skip" in stage) &&
@@ -402,6 +414,7 @@ export const getAllBookings = async ({
   countPipeline.push({ $count: "total" });
 
   const totalResult = await Booking.aggregate(countPipeline);
+
   return {
     bookings,
     meta: {
@@ -411,3 +424,4 @@ export const getAllBookings = async ({
     }
   };
 };
+

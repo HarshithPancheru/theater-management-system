@@ -16,7 +16,7 @@ const router = express.Router();
 router.post("/lock", authMiddleware, createBooking);
 router.post("/", authMiddleware, createBooking);
 
-router.get("/", authMiddleware, roleMiddleware(["SUPER_ADMIN"]), getAllBookings);
+router.get("/", authMiddleware, roleMiddleware(["SUPER_ADMIN","THEATER_MANAGER", "STAFF" ]), getAllBookings);
 router.get("/my", authMiddleware, getMyBookings);
 
 router.get("/:bookingId", authMiddleware, getBookingDetails);

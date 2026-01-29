@@ -1,4 +1,5 @@
 import * as bookingService from "./booking.service.js";
+import User from "../auth/auth.model.js"
 
 /* Lock seats */
 export const lockSeats = async (req, res, next) => {
@@ -56,9 +57,6 @@ export const createBooking = async (req, res, next) => {
 export const getMyBookings = async (req, res, next) => {
 
 
-  //TODO
-  req.user = { id: "696f72269d88fdb792d23f3f" };
-
   try {
     const bookings = await bookingService.getMyBookings(req.user.id);
 
@@ -73,10 +71,6 @@ export const getMyBookings = async (req, res, next) => {
 
 /* Get booking details */
 export const getBookingDetails = async (req, res, next) => {
-
-
-  //TODO
-  req.user = { id: "696f72269d88fdb792d23f3f" };
 
 
   try {
@@ -128,6 +122,14 @@ export const getAllBookings = async (req, res, next) => {
       isShowOver
     } = req.query;
     
+    let theaterId;
+    
+    if(req.user.role=="THEATER_MANAGER" || req.user.role== "STAFF"){
+      const user = await User.findById(req.user.id, {theaterId:1});
+      theaterId = user.theaterId;
+      
+      if(!theaterId) throw new Error("theaterId not found for role "+`\"${req.user.role}\"`)
+    }
 
     const data = await bookingService.getAllBookings({
       page: Number(page),
@@ -135,7 +137,8 @@ export const getAllBookings = async (req, res, next) => {
       search,
       status,
       sort,
-      isShowOver
+      isShowOver,
+      theaterId
     });
 
     res.json({
