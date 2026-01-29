@@ -11,6 +11,8 @@ import {
   showInfo
 } from "../../utils/toast";
 import { getAllBookings, cancelBooking } from "../../api/booking.api.js";
+import { useNavigate } from "react-router-dom";
+import EmptyState from "../../components/EmptyState/EmptyState.jsx";
 
 const BookingList = () => {
   const [bookings, setBookings] = useState([]);
@@ -20,6 +22,7 @@ const BookingList = () => {
   const [status, setStatus] = useState("");
   const [sort, setSort] = useState("");
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -41,7 +44,7 @@ const BookingList = () => {
       } else {
         setBookings(prev => [...prev, ...res.data]);
       }
-
+      setLoading(false);
       setHasMore(res.data.length > 0);
     } catch(e) {      
       showError("Failed to load bookings");
@@ -98,6 +101,21 @@ const BookingList = () => {
     { key: "show_datetime_desc", label: "Show Time ↓" },
     { key: "show_datetime_asc", label: "Show Time ↑" }
   ];
+
+  if (loading) return null;
+
+  if (bookings.length === 0) {
+    return (
+      <div style={{ height: "100%", display: "flex", justifyContent: "center" }}>
+        <EmptyState
+          title="No Bookings Found"
+          description="No one booked ticket at your theater."
+          actionLabel="View shows"
+          onAction={() => navigate("/super-admin/shows")}
+        />
+      </div>
+    );
+  }
 
   return (
     <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "24px" }}>

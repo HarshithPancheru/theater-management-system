@@ -1,4 +1,5 @@
 import * as bookingService from "./booking.service.js";
+import User from "../auth/auth.model.js"
 
 /* Lock seats */
 export const lockSeats = async (req, res, next) => {
@@ -121,6 +122,14 @@ export const getAllBookings = async (req, res, next) => {
       isShowOver
     } = req.query;
     
+    let theaterId;
+    
+    if(req.user.role=="THEATER_MANAGER" || req.user.role== "STAFF"){
+      const user = await User.findById(req.user.id, {theaterId:1});
+      theaterId = user.theaterId;
+      
+      if(!theaterId) throw new Error("theaterId not found for role "+`\"${req.user.role}\"`)
+    }
 
     const data = await bookingService.getAllBookings({
       page: Number(page),
@@ -128,7 +137,8 @@ export const getAllBookings = async (req, res, next) => {
       search,
       status,
       sort,
-      isShowOver
+      isShowOver,
+      theaterId
     });
 
     res.json({
